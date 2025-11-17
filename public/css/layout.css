@@ -1,0 +1,109 @@
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Container principal */
+.container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+/* Si tu veux centrer verticalement sur les pages login/register */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Titres */
+h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Liens */
+a {
+  color: #3366ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Formulaires */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3366ff;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  background: #3366ff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background: #254eda;
+}
+
+/* Messages d'erreur/succès */
+.message {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.message.error {
+  background: #ffe6e6;
+  color: #d63031;
+  border: 1px solid #ff7675;
+}
+
+.message.success {
+  background: #e6f7e6;
+  color: #27ae60;
+  border: 1px solid #2ecc71;
+}

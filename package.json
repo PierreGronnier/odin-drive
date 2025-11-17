@@ -1,0 +1,33 @@
+{
+  "name": "odin-drive",
+  "version": "1.0.0",
+  "description": "A stripped down version of a drive for the Odin project",
+  "homepage": "https://github.com/PierreGronnier/odin-drive#readme",
+  "bugs": {
+    "url": "https://github.com/PierreGronnier/odin-drive/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PierreGronnier/odin-drive.git"
+  },
+  "license": "ISC",
+  "author": "Pierre Gronnier",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "prisma": "^6.19.0"
+  }
+}

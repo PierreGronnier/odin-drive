@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/layout.css" />
+  </head>
+  <body>
+    <% if (user) { %> <%- include("partials/navbar") %> <% } %>
+
+    <div class="container"><%- body %></div>
+
+    <% if (user) { %> <%- include("partials/footer") %> <% } %>
+  </body>
+</html>
