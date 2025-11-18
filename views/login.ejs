@@ -1,7 +1,7 @@
 <h1>Log In</h1>
 
 <% if (typeof error !== 'undefined') { %>
-<div><%= error %></div>
+<div class="message error"><%= error %></div>
 <% } %>
 
 <form action="/auth/login" method="POST">

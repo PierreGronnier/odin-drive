@@ -1,5 +1,9 @@
 <h1>Create Account</h1>
 
+<% if (typeof error !== 'undefined') { %>
+<div class="message error"><%= error %></div>
+<% } %>
+
 <form action="/auth/register" method="POST">
   <input type="email" name="email" placeholder="Email" required />
   <input type="password" name="password" placeholder="Password" required />
