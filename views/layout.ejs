@@ -3,13 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= title %></title>
+
     <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <% if (!user) { %>
+    <link rel="stylesheet" href="/css/auth.css" />
+    <% } else { %>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <% } %>
   </head>
-  <body>
-    <% if (user) { %> <%- include("partials/navbar") %> <% } %>
 
-    <div class="container"><%- body %></div>
-
-    <% if (user) { %> <%- include("partials/footer") %> <% } %>
+  <body class="<%= user ? 'dashboard-body' : 'auth-body' %>">
+    <% if (user) { %> <%- include("partials/navbar") %> <% } %> <% if (!user) {
+    %> <%- body %> <% } else { %>
+    <main class="dashboard-main">
+      <div class="dashboard-container"><%- body %></div>
+    </main>
+    <% } %> <% if (user) { %> <%- include("partials/footer") %> <% } %>
   </body>
 </html>

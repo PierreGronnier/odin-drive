@@ -11,7 +11,9 @@ function isGuest(req, res, next) {
     return next();
   }
 
-  res.redirect("/");
+  return res
+    .status(403)
+    .render("alreadyLoggedIn", { title: "Déjà connecté", user: req.user });
 }
 
 module.exports = { isLoggedIn, isGuest };

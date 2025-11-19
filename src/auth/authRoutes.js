@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
 const passport = require("./passport");
 const prisma = require("../prismaClient");
+const { isGuest } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
@@ -16,11 +17,9 @@ const registerValidationRules = [
         return Promise.reject("An account with this email already exists.");
       }
     }),
-
   body("password")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long."),
-
   body("confirmPassword").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("Passwords do not match.");
@@ -35,7 +34,7 @@ const loginValidationRules = [
 ];
 
 // GET REGISTER
-router.get("/register", (req, res) => {
+router.get("/register", isGuest, (req, res) => {
   res.render("register", {
     title: "Create Account",
     error: undefined,
@@ -43,9 +42,8 @@ router.get("/register", (req, res) => {
 });
 
 // POST REGISTER
-router.post("/register", registerValidationRules, async (req, res) => {
+router.post("/register", isGuest, registerValidationRules, async (req, res) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     return res.render("register", {
       title: "Create Account",
@@ -58,14 +56,9 @@ router.post("/register", registerValidationRules, async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-
     await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-      },
+      data: { email, password: hashedPassword },
     });
-
     res.redirect("/auth/login");
   } catch (err) {
     console.error("Unexpected registration error:", err);
@@ -78,16 +71,13 @@ router.post("/register", registerValidationRules, async (req, res) => {
 });
 
 // GET LOGIN
-router.get("/login", (req, res) => {
-  res.render("login", {
-    title: "Log In",
-  });
+router.get("/login", isGuest, (req, res) => {
+  res.render("login", { title: "Log In" });
 });
 
 // POST LOGIN
-router.post("/login", loginValidationRules, (req, res, next) => {
+router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     return res.render("login", {
       title: "Log In",
@@ -96,10 +86,7 @@ router.post("/login", loginValidationRules, (req, res, next) => {
   }
 
   passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-
+    if (err) return next(err);
     if (!user) {
       return res.render("login", {
         title: "Log In",
@@ -108,9 +95,7 @@ router.post("/login", loginValidationRules, (req, res, next) => {
     }
 
     req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       return res.redirect("/dashboard");
     });
   })(req, res, next);

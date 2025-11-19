@@ -1,0 +1,142 @@
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-dark);
+  padding: 20px;
+}
+
+.auth-box {
+  background: var(--bg-main);
+  padding: 40px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  color: var(--text-light);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.auth-box h1 {
+  margin-bottom: 20px;
+}
+
+.auth-box a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-box a:hover {
+  text-decoration: underline;
+}
+
+.auth-box input,
+.auth-box button {
+  width: 100%;
+}
+
+.auth-box input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 16px;
+  margin-bottom: 15px;
+  background: #ffffff;
+  color: #000;
+}
+
+.auth-box button {
+  padding: 12px;
+  border: none;
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.auth-box button:hover {
+  background: var(--primary-hover);
+}
+
+.auth-box p {
+  margin-top: 20px;
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.auth-box p a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-box p a:hover {
+  text-decoration: underline;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.message.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.message.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+/* Page "déjà connecté" */
+.already-loggedin {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-dark);
+}
+
+.already-loggedin .auth-box {
+  background: var(--bg-dark-box);
+  color: var(--text-light);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/*Page home */
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.auth-box .home-desc {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-main);
+  margin-top: 10px;
+}
+
+.home-buttons .btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.home-buttons .btn:hover {
+  background: var(--primary-hover);
+}

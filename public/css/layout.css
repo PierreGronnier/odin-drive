@@ -1,3 +1,18 @@
+:root {
+  --bg-main: #f5f7fb;
+  --bg-dark: #1b1e24;
+  --bg-dark-box: #2a2f38;
+  --primary: #3366ff;
+  --primary-hover: #254eda;
+  --text-main: #333;
+  --text-light: #ffffff;
+  --border: #ccc;
+  --error-bg: #ffe6e6;
+  --error-text: #d63031;
+  --success-bg: #e6f7e6;
+  --success-text: #27ae60;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,10 +21,10 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f5f7fb;
   margin: 0;
   padding: 0;
-  min-height: 95vh;
+  min-height: 100vh;
+  color: var(--text-main);
 }
 
 .container {
@@ -23,22 +38,14 @@ body {
   text-align: center;
 }
 
-.auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
 h1 {
   font-size: 26px;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-main);
 }
 
 a {
-  color: #3366ff;
+  color: var(--primary);
   text-decoration: none;
   font-weight: bold;
 }
@@ -57,20 +64,20 @@ form {
 input {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   font-size: 16px;
   transition: border-color 0.3s;
 }
 
 input:focus {
   outline: none;
-  border-color: #3366ff;
+  border-color: var(--primary);
 }
 
 button {
   padding: 12px;
   border: none;
-  background: #3366ff;
+  background: var(--primary);
   color: white;
   border-radius: 8px;
   cursor: pointer;
@@ -80,7 +87,7 @@ button {
 }
 
 button:hover {
-  background: #254eda;
+  background: var(--primary-hover);
 }
 
 .message {
@@ -90,13 +97,13 @@ button:hover {
 }
 
 .message.error {
-  background: #ffe6e6;
-  color: #d63031;
-  border: 1px solid #ff7675;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-text);
 }
 
 .message.success {
-  background: #e6f7e6;
-  color: #27ae60;
-  border: 1px solid #2ecc71;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-text);
 }

@@ -1,0 +1,60 @@
+/* Styles spécifiques au dashboard */
+.dashboard-body {
+  background: var(--bg-dark);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: calc(100vh - 160px);
+}
+
+.dashboard-container {
+  background: var(--bg-main);
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  max-width: 90%;
+  text-align: center;
+  color: var(--text-main);
+}
+
+.dashboard-title {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: var(--text-main);
+}
+
+.dashboard-text {
+  font-size: 16px;
+  margin: 15px 0 30px 0;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.dashboard-button {
+  padding: 12px 25px;
+  border: none;
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.dashboard-button:hover {
+  background: var(--primary-hover);
+}
