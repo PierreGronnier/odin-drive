@@ -6,6 +6,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const expressLayouts = require("express-ejs-layouts");
 const userLocals = require("./middlewares/userLocals");
+const flashMiddleware = require("./middlewares/flashMiddleware");
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(userLocals);
+app.use(flashMiddleware);
 
 // ROUTES
 app.use("/", mainRoutes);

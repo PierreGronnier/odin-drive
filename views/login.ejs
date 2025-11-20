@@ -2,7 +2,9 @@
   <div class="auth-box">
     <h1>Log In</h1>
 
-    <% if (typeof error !== 'undefined') { %>
+    <% if (typeof success !== 'undefined' && success) { %>
+    <div class="message success"><%= success %></div>
+    <% } %> <% if (typeof error !== 'undefined' && error) { %>
     <div class="message error"><%= error %></div>
     <% } %>
 

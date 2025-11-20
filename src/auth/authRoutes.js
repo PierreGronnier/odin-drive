@@ -59,6 +59,7 @@ router.post("/register", isGuest, registerValidationRules, async (req, res) => {
     await prisma.user.create({
       data: { email, password: hashedPassword },
     });
+    req.session.success = "Account created successfully! You can now log in.";
     res.redirect("/auth/login");
   } catch (err) {
     console.error("Unexpected registration error:", err);
@@ -96,6 +97,7 @@ router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
+      req.session.success = "Login successful! Welcome back!";
       return res.redirect("/dashboard");
     });
   })(req, res, next);
@@ -104,6 +106,7 @@ router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
 // LOGOUT
 router.get("/logout", (req, res) => {
   req.logout(() => {
+    req.session.success = "You have been successfully logged out.";
     res.redirect("/");
   });
 });

@@ -1,9 +1,11 @@
+<% if (typeof success !== 'undefined' && success) { %>
+<div class="message success"><%= success %></div>
+<% } %>
+
 <div class="dashboard-content">
-  <h1 class="dashboard-title">Bienvenue sur Odin Drive !</h1>
+  <h1 class="dashboard-title">Welcome to Odin Drive, <%= user.email %>!</h1>
   <p class="dashboard-text">
-    Vous êtes connecté avec succès à votre espace personnel.
+    You are successfully logged in to your personal space.
   </p>
-  <a href="/auth/logout"
-    ><button class="dashboard-button">Se déconnecter</button></a
-  >
+  <a href="/auth/logout"><button class="dashboard-button">Logout</button></a>
 </div>

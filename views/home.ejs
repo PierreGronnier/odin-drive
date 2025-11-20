@@ -1,6 +1,11 @@
 <div class="auth-wrapper">
   <div class="auth-box">
     <h1>Welcome to Odin Drive</h1>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+    <div class="message success"><%= success %></div>
+    <% } %>
+
     <p class="home-desc">Access your files easily and securely.</p>
 
     <div class="home-buttons">
