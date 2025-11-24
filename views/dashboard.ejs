@@ -1,11 +1,126 @@
-<% if (typeof success !== 'undefined' && success) { %>
-<div class="message success"><%= success %></div>
-<% } %>
-
 <div class="dashboard-content">
-  <h1 class="dashboard-title">Welcome to Odin Drive, <%= user.email %>!</h1>
-  <p class="dashboard-text">
-    You are successfully logged in to your personal space.
-  </p>
-  <a href="/auth/logout"><button class="dashboard-button">Logout</button></a>
+  <!-- Messages -->
+  <% if (typeof success !== 'undefined' && success) { %>
+  <div class="message success">
+    <i class="message-icon">✓</i>
+    <%= success %>
+  </div>
+  <% } %> <% if (typeof error !== 'undefined' && error) { %>
+  <div class="message error">
+    <i class="message-icon">✗</i>
+    <%= error %>
+  </div>
+  <% } %>
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Welcome to Odin Drive</h1>
+    <p class="dashboard-subtitle">
+      Hello, <span class="user-email"><%= user.email %></span>
+    </p>
+    <p class="dashboard-description">Your secure cloud storage solution</p>
+  </div>
+
+  <!-- Upload Section -->
+  <div class="upload-section">
+    <h2 class="section-title">Upload File</h2>
+    <form
+      action="/upload"
+      method="POST"
+      enctype="multipart/form-data"
+      class="upload-form"
+    >
+      <div class="file-input-container">
+        <input
+          type="file"
+          name="file"
+          id="fileInput"
+          class="file-input"
+          required
+        />
+        <label for="fileInput" class="file-input-label">
+          <i class="upload-icon">📁</i>
+          <span class="file-input-text">Choose a file</span>
+        </label>
+      </div>
+      <button type="submit" class="upload-button">
+        <i class="button-icon">↑</i>
+        Upload File
+      </button>
+    </form>
+  </div>
+
+  <!-- Files Section -->
+  <div class="files-section">
+    <div class="section-header">
+      <h2 class="section-title">Your Files</h2>
+      <span class="file-count"
+        ><%= files.length %> file<%= files.length !== 1 ? 's' : '' %></span
+      >
+    </div>
+
+    <% if (files.length > 0) { %>
+    <div class="files-list">
+      <% files.forEach(file => { %>
+      <div class="file-item">
+        <div class="file-icon"><%- getFileIcon(file.mimetype) %></div>
+        <div class="file-details">
+          <h3 class="file-name"><%= file.originalName %></h3>
+          <div class="file-meta">
+            <span class="file-size"><%= formatFileSize(file.size) %></span>
+            <span class="file-date"
+              >Uploaded <%= new Date(file.createdAt).toLocaleDateString()
+              %></span
+            >
+          </div>
+        </div>
+        <div class="file-actions">
+          <a
+            href="/download/<%= file.id %>"
+            class="file-action download"
+            title="Download"
+          >
+            <i class="action-icon">↓</i>
+          </a>
+          <form
+            action="/delete/<%= file.id %>"
+            method="POST"
+            class="delete-form"
+          >
+            <button
+              type="submit"
+              class="file-action delete"
+              title="Delete"
+              onclick="return confirm('Delete this file?')"
+            >
+              <i class="action-icon">×</i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state">
+      <div class="empty-icon">📁</div>
+      <h3>No files yet</h3>
+      <p>Upload your first file to get started</p>
+    </div>
+    <% } %>
+  </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("fileInput");
+    const fileInputText = document.querySelector(".file-input-text");
+
+    fileInput.addEventListener("change", function () {
+      if (this.files.length > 0) {
+        fileInputText.textContent = this.files[0].name;
+      } else {
+        fileInputText.textContent = "Choose a file";
+      }
+    });
+  });
+</script>

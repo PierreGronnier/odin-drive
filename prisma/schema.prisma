@@ -13,6 +13,7 @@ model User {
   email    String   @unique
   password String
   sessions Session[]
+  files    File[]
 }
 
 model Session {
@@ -24,4 +25,18 @@ model Session {
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Session")
+}
+
+model File {
+  id          Int      @id @default(autoincrement())
+  filename    String   
+  originalName String  
+  path        String  
+  size        Int      
+  mimetype    String   
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@map("File")
 }

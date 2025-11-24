@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const expressLayouts = require("express-ejs-layouts");
 const userLocals = require("./middlewares/userLocals");
 const flashMiddleware = require("./middlewares/flashMiddleware");
+const viewHelpers = require("./middlewares/viewHelpers");
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+app.use(viewHelpers);
 
 // EJS
 app.set("view engine", "ejs");
