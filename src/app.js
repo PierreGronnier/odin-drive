@@ -8,20 +8,20 @@ const expressLayouts = require("express-ejs-layouts");
 const userLocals = require("./middlewares/userLocals");
 const flashMiddleware = require("./middlewares/flashMiddleware");
 const viewHelpers = require("./middlewares/viewHelpers");
-
-dotenv.config();
-
+const multerErrorHandler = require("./middlewares/multerErrorHandler");
 const prisma = require("./prismaClient");
 const passport = require("./auth/passport");
 const authRoutes = require("./auth/authRoutes");
 const mainRoutes = require("./router");
 
+dotenv.config();
+
 const app = express();
 
+// Middlewares de base
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-app.use(viewHelpers);
 
 // EJS
 app.set("view engine", "ejs");
@@ -43,14 +43,18 @@ app.use(
   })
 );
 
-// Passport
+// Passport et middlewares perso
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(userLocals);
 app.use(flashMiddleware);
+app.use(viewHelpers);
 
 // ROUTES
 app.use("/", mainRoutes);
 app.use("/auth", authRoutes);
+
+// Gestion d'erreurs Multer
+app.use(multerErrorHandler);
 
 app.listen(3000, () => console.log("Server running at http://localhost:3000"));

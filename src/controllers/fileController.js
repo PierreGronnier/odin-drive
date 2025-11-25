@@ -85,12 +85,16 @@ class FileController {
   }
 
   static getErrorMessage(error) {
+    if (error.message && error.message.startsWith("INVALID_FILE_TYPE:")) {
+      const mimeType = error.message.split(":")[1];
+      return `File type "${mimeType}" is not allowed. Please upload a supported file type.`;
+    }
     if (error.code === "P2002") {
       return "A file with this name already exists";
     }
     if (error instanceof require("multer").MulterError) {
       if (error.code === "LIMIT_FILE_SIZE") {
-        return "File too large. Maximum size is 10MB.";
+        return "File too large. Maximum size is 100MB.";
       }
       return `Upload error: ${error.message}`;
     }

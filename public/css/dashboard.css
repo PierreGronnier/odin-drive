@@ -1,5 +1,5 @@
 .dashboard-body {
-  background: #ffffff;
+  background: var(--bg-main);
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -18,13 +18,13 @@
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
-  background: #ffffff;
+  background: var(--bg-main);
 }
 
 .dashboard-content {
-  background: #ffffff;
+  background: var(--bg-main);
   padding: 40px;
-  color: #333333;
+  color: var(--text-main);
 }
 
 /* Messages */
@@ -40,15 +40,15 @@
 }
 
 .message.success {
-  background: #f0f9f0;
-  color: #2d7730;
-  border-left-color: #2d7730;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-left-color: var(--success-text);
 }
 
 .message.error {
-  background: #fdf2f2;
-  color: #c53030;
-  border-left-color: #c53030;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-left-color: var(--error-text);
 }
 
 .message-icon {
@@ -59,14 +59,17 @@
 .dashboard-header {
   text-align: center;
   margin-bottom: 40px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #eaeaea;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  color: var(--text-main);
 }
 
 .dashboard-title {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #2d3748;
+  color: var(--text-main);
   font-weight: 700;
 }
 
@@ -77,40 +80,43 @@
 
 .dashboard-subtitle {
   font-size: 1.3rem;
-  color: #4a5568;
+  color: var(--text-main);
   margin-bottom: 8px;
   font-weight: 500;
+  opacity: 0.8;
 }
 
 .dashboard-description {
   font-size: 1.1rem;
-  color: #718096;
+  color: var(--text-main);
   font-weight: 400;
+  opacity: 0.6;
 }
 
 /* Upload Section */
 .upload-section {
-  background: #f8f9fa;
+  background: #ffffff;
   padding: 30px;
   border-radius: 12px;
   margin-bottom: 40px;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--border);
+  color: var(--text-main);
 }
 
 .section-title {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #2d3748;
+  color: var(--text-main);
   font-weight: 600;
 }
 
 .upload-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
-.file-input-container {
+.file-input-wrapper {
   position: relative;
 }
 
@@ -124,36 +130,110 @@
 
 .file-input-label {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 20px;
+  padding: 40px 20px;
   background: #ffffff;
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 500;
-  color: #6b7280;
+  text-align: center;
 }
 
-.file-input-label:hover {
+.file-input-label:hover,
+.file-input-label.dragover {
   border-color: var(--primary);
-  background: #fafbff;
-  color: var(--primary);
+  background: #f8f9fa;
+}
+
+.upload-placeholder {
+  transition: opacity 0.3s;
 }
 
 .upload-icon {
-  font-size: 1.2rem;
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.7;
+  display: block;
 }
 
-.file-input-text {
+.upload-text h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.upload-text p {
+  color: var(--text-main);
   font-size: 1rem;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* File Preview */
+.file-preview {
+  width: 100%;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+
+.preview-info {
+  flex: 1;
+}
+
+.preview-info h4 {
+  margin: 0 0 5px 0;
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.preview-info p {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.file-message {
+  margin: 10px 0;
+}
+
+.remove-file {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--error-text);
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.remove-file:hover {
+  background: #c53030;
 }
 
 .upload-button {
   background: var(--primary);
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 14px 28px;
   border-radius: 8px;
@@ -190,8 +270,8 @@
 }
 
 .file-count {
-  background: #e2e8f0;
-  color: #4a5568;
+  background: var(--border);
+  color: var(--text-main);
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -210,9 +290,10 @@
   gap: 16px;
   padding: 20px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   border-radius: 8px;
   transition: all 0.3s ease;
+  color: var(--text-main);
 }
 
 .file-item:hover {
@@ -234,7 +315,7 @@
 .file-name {
   font-size: 1rem;
   margin-bottom: 6px;
-  color: #2d3748;
+  color: var(--text-main);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -245,7 +326,8 @@
   display: flex;
   gap: 16px;
   font-size: 0.875rem;
-  color: #718096;
+  color: var(--text-main);
+  opacity: 0.7;
 }
 
 .file-size {
@@ -253,7 +335,7 @@
 }
 
 .file-date {
-  color: #a0aec0;
+  opacity: 0.5;
 }
 
 .file-actions {
@@ -264,7 +346,7 @@
 .file-action {
   background: none;
   border: none;
-  color: #718096;
+  color: var(--text-main);
   cursor: pointer;
   padding: 8px;
   border-radius: 6px;
@@ -273,10 +355,12 @@
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
+  opacity: 0.7;
 }
 
 .file-action:hover {
-  background: #f7fafc;
+  background: #f8f9fa;
+  opacity: 1;
 }
 
 .file-action.download:hover {
@@ -284,21 +368,20 @@
 }
 
 .file-action.delete:hover {
-  color: #e53e3e;
+  color: var(--error-text);
 }
 
 .delete-form {
   margin: 0;
 }
 
-/* Empty State */
 .empty-state {
   text-align: center;
   padding: 60px 20px;
-  color: #718096;
-  background: #f8f9fa;
+  color: var(--text-main);
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--border);
 }
 
 .empty-icon {
@@ -310,11 +393,12 @@
 .empty-state h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  color: #4a5568;
+  color: var(--text-main);
   font-weight: 600;
 }
 
 .empty-state p {
   font-size: 1rem;
   opacity: 0.7;
+  color: var(--text-main);
 }

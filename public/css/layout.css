@@ -2,11 +2,15 @@
   --bg-main: #f5f7fb;
   --bg-dark: #1b1e24;
   --bg-dark-box: #2a2f38;
+  --bg-white: #ffffff;
+  --bg-light: #f8f9fa;
   --primary: #3366ff;
   --primary-hover: #254eda;
   --text-main: #333;
   --text-light: #ffffff;
+  --text-muted: #666;
   --border: #ccc;
+  --border-light: #eaeaea;
   --error-bg: #ffe6e6;
   --error-text: #d63031;
   --success-bg: #e6f7e6;
