@@ -1,16 +1,6 @@
 <div class="dashboard-content">
   <!-- Messages -->
-  <% if (typeof success !== 'undefined' && success) { %>
-  <div class="message success">
-    <i class="message-icon">✓</i>
-    <%= success %>
-  </div>
-  <% } %> <% if (typeof error !== 'undefined' && error) { %>
-  <div class="message error">
-    <i class="message-icon">✗</i>
-    <%= error %>
-  </div>
-  <% } %>
+  <%- include('partials/messages') %>
 
   <!-- Header -->
   <div class="dashboard-header">

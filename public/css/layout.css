@@ -84,19 +84,30 @@ button:hover {
 }
 
 .message {
-  padding: 10px;
+  position: relative;
+  padding: 16px 40px 16px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-}
-
-.message.error {
-  background: var(--error-bg);
-  color: var(--error-text);
-  border: 1px solid var(--error-text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid;
+  transition: opacity 0.3s ease;
 }
 
 .message.success {
   background: var(--success-bg);
   color: var(--success-text);
-  border: 1px solid var(--success-text);
+  border-left-color: var(--success-text);
+}
+
+.message.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-left-color: var(--error-text);
+}
+
+.message-close:hover {
+  opacity: 1;
 }

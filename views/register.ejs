@@ -2,11 +2,7 @@
   <div class="auth-box">
     <h1>Create Account</h1>
 
-    <% if (typeof success !== 'undefined' && success) { %>
-    <div class="message success"><%= success %></div>
-    <% } %> <% if (typeof error !== 'undefined' && error) { %>
-    <div class="message error"><%= error %></div>
-    <% } %>
+    <%- include('partials/messages') %>
 
     <form action="/auth/register" method="POST">
       <input type="email" name="email" placeholder="Email" required />

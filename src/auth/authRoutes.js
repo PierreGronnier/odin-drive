@@ -97,7 +97,7 @@ router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      req.session.success = "Login successful! Welcome back!";
+      req.session.success = "Login successful! Welcome!";
       return res.redirect("/dashboard");
     });
   })(req, res, next);

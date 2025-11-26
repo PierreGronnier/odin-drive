@@ -78,22 +78,6 @@
   text-decoration: underline;
 }
 
-.message {
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.message.error {
-  background: var(--error-bg);
-  color: var(--error-text);
-}
-
-.message.success {
-  background: var(--success-bg);
-  color: var(--success-text);
-}
-
 /* Page "déjà connecté" */
 .already-loggedin {
   min-height: 100vh;
