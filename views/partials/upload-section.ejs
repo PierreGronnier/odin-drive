@@ -1,0 +1,44 @@
+<!-- Upload Section -->
+<div class="upload-section">
+  <h2 class="section-title">Upload File</h2>
+  <form action="/upload?folderId=<%= folderId || '' %>" method="POST" enctype="multipart/form-data" class="upload-form" onsubmit="return validateFileSize(this)">
+    <div class="folder-select">
+      <label class="form-label">Destination Folder:</label>
+      <select name="folderId" class="form-input">
+        <option value="">Root Folder</option>
+        <% if (folders) { %>
+          <% folders.forEach(folder => { %>
+          <option value="<%= folder.id %>" <%= folderId == folder.id ? 'selected' : '' %>><%= folder.name %></option>
+          <% }); %>
+        <% } %>
+      </select>
+    </div>
+    
+    <div class="file-input-wrapper">
+      <input type="file" name="file" id="fileInput" class="file-input" required onchange="handleFileSelect(this)" />
+      <label for="fileInput" class="file-input-label">
+        <div class="upload-placeholder" id="uploadPlaceholder">
+          <i class="upload-icon">📁</i>
+          <div class="upload-text">
+            <h3>Drop your file here</h3>
+            <p>or click to browse</p>
+          </div>
+        </div>
+        <div class="file-preview" id="filePreview" style="display: none">
+          <div class="preview-content">
+            <i class="preview-icon" id="previewIcon">📁</i>
+            <div class="preview-info">
+              <h4 id="fileName"></h4>
+              <p id="fileSize"></p>
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div id="fileMessage" class="file-message"></div>
+    <button type="submit" class="dashboard-button upload-button">
+      <i class="button-icon">↑</i>
+      Upload File
+    </button>
+  </form>
+</div>

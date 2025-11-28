@@ -21,7 +21,11 @@
     <main class="dashboard-main">
       <div class="dashboard-container"><%- body %></div>
     </main>
-    <% } %> <% if (user) { %> <%- include("partials/footer") %> <% } %>
+    <% } %> <% if (user) { %> <%- include("partials/footer") %> <% } %> <% if
+    (user && (typeof currentFolder !== 'undefined' || title === 'Your Drive')) {
+    %>
+    <script src="/js/dashboard.js"></script>
+    <% } %>
   </body>
 </html>
 <script src="/js/messages.js"></script>

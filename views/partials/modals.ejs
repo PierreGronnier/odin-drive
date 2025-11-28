@@ -1,0 +1,110 @@
+<!-- Create Folder Modal -->
+<div id="createFolderModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Create New Folder</h3>
+      <button class="modal-close" onclick="closeCreateFolderModal()">
+        &times;
+      </button>
+    </div>
+    <form id="createFolderForm" action="/folders" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="parentId" value="<%= folderId || '' %>" />
+        <div class="form-group">
+          <label class="form-label" for="folderName">Folder Name</label>
+          <input
+            type="text"
+            class="form-input"
+            id="folderName"
+            name="name"
+            required
+            placeholder="Enter folder name"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeCreateFolderModal()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Create Folder</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Folder Modal -->
+<div id="editFolderModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Edit Folder</h3>
+      <button class="modal-close" onclick="closeEditFolderModal()">
+        &times;
+      </button>
+    </div>
+    <form id="editFolderForm" method="POST">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="editFolderName">Folder Name</label>
+          <input
+            type="text"
+            class="form-input"
+            id="editFolderName"
+            name="name"
+            required
+            placeholder="Enter folder name"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeEditFolderModal()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Update Folder</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Folder Modal -->
+<div id="deleteFolderModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Delete Folder</h3>
+      <button class="modal-close" onclick="closeDeleteFolderModal()">
+        &times;
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Are you sure you want to delete the folder "<span
+          id="deleteFolderName"
+        ></span
+        >"?
+      </p>
+      <p class="text-muted">
+        This action will also delete all files and subfolders inside this
+        folder.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        onclick="closeDeleteFolderModal()"
+      >
+        Cancel
+      </button>
+      <form id="deleteFolderForm" method="POST" style="display: inline">
+        <button type="submit" class="btn btn-danger">Delete Folder</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -2,9 +2,12 @@ const prisma = require("../prismaClient");
 const fs = require("fs");
 
 class FileService {
-  static async getUserFiles(userId) {
+  static async getUserFiles(userId, folderId = null) {
     return await prisma.file.findMany({
-      where: { userId },
+      where: {
+        userId,
+        folderId: folderId || null,
+      },
       orderBy: { createdAt: "desc" },
     });
   }
@@ -33,6 +36,18 @@ class FileService {
 
     return await prisma.file.delete({
       where: { id: file.id },
+    });
+  }
+
+  static async moveFile(fileId, userId, folderId) {
+    const file = await this.getFileById(fileId, userId);
+    if (!file) {
+      throw new Error("File not found");
+    }
+
+    return await prisma.file.update({
+      where: { id: file.id },
+      data: { folderId: folderId ? parseInt(folderId) : null },
     });
   }
 

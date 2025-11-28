@@ -14,6 +14,7 @@ model User {
   password String
   sessions Session[]
   files    File[]
+  folders  Folder[]  // Ajoutez cette ligne
 }
 
 model Session {
@@ -27,6 +28,20 @@ model Session {
   @@map("Session")
 }
 
+model Folder {
+  id        Int      @id @default(autoincrement())
+  name      String   
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  files     File[]
+  parentId  Int?
+  parent    Folder?  @relation("FolderHierarchy", fields: [parentId], references: [id])
+  children  Folder[] @relation("FolderHierarchy")
+  createdAt DateTime @default(now())
+
+  @@map("Folder")
+}
+
 model File {
   id          Int      @id @default(autoincrement())
   filename    String   
@@ -36,6 +51,8 @@ model File {
   mimetype    String   
   userId      Int
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folderId    Int?
+  folder      Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 
   @@map("File")

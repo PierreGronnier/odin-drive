@@ -13,6 +13,7 @@ const prisma = require("./prismaClient");
 const passport = require("./auth/passport");
 const authRoutes = require("./auth/authRoutes");
 const mainRoutes = require("./router");
+const methodOverride = require("method-override");
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use(passport.session());
 app.use(userLocals);
 app.use(flashMiddleware);
 app.use(viewHelpers);
+app.use(methodOverride("_method"));
 
 // ROUTES
 app.use("/", mainRoutes);

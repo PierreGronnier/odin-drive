@@ -1,14 +1,30 @@
 const FileService = require("../services/fileService");
+const FolderService = require("../services/folderService");
 
 class FileController {
   static async getDashboard(req, res) {
     try {
-      const files = await FileService.getUserFiles(req.user.id);
+      const folderId = req.params.id || null;
+      const files = await FileService.getUserFiles(req.user.id, folderId);
+      const folders = folderId
+        ? await FolderService.getFolderById(folderId, req.user.id)
+        : await FolderService.getRootFolders(req.user.id);
+
+      let currentFolder = null;
+      if (folderId) {
+        currentFolder = await FolderService.getFolderById(
+          folderId,
+          req.user.id
+        );
+      }
 
       res.render("dashboard", {
         title: "Your Drive",
         user: req.user,
         files: files,
+        folders: folders?.children || folders,
+        currentFolder: currentFolder,
+        folderId: folderId,
       });
     } catch (error) {
       console.error("Dashboard error:", error);
@@ -16,6 +32,9 @@ class FileController {
         title: "Your Drive",
         user: req.user,
         files: [],
+        folders: [],
+        currentFolder: null,
+        folderId: null,
       });
     }
   }
@@ -34,18 +53,26 @@ class FileController {
         size: req.file.size,
         mimetype: req.file.mimetype,
         userId: req.user.id,
+        folderId: req.body.folderId ? parseInt(req.body.folderId) : null,
       };
 
       await FileService.createFile(fileData);
 
       req.session.success = `File "${req.file.originalname}" uploaded successfully!`;
-      res.redirect("/dashboard");
+
+      const redirectUrl = req.body.folderId
+        ? `/folder/${req.body.folderId}`
+        : "/dashboard";
+      res.redirect(redirectUrl);
     } catch (error) {
       console.error("Upload error:", error);
       FileService.cleanupFile(req.file?.path);
 
       req.session.error = this.getErrorMessage(error);
-      res.redirect("/dashboard");
+      const redirectUrl = req.body.folderId
+        ? `/folder/${req.body.folderId}`
+        : "/dashboard";
+      res.redirect(redirectUrl);
     }
   }
 

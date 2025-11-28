@@ -1,0 +1,38 @@
+<!-- Folders Section -->
+<div class="folders-section">
+  <div class="section-header">
+    <h2 class="section-title">Folders</h2>
+    <span class="file-count">
+      <%= folders ? folders.length : 0 %> folder<%= folders && folders.length !== 1 ? 's' : '' %>
+    </span>
+  </div>
+
+  <% if (folders && folders.length > 0) { %>
+  <div class="folders-grid">
+    <% folders.forEach(folder => { %>
+    <div class="folder-item" onclick="openFolder(<%= folder.id %>)">
+      <div class="folder-icon">📁</div>
+      <h3 class="folder-name"><%= folder.name %></h3>
+      <div class="folder-meta">
+        <span><%= folder._count.files %> files</span>
+        <span><%= folder._count.children %> subfolders</span>
+      </div>
+      <div class="folder-actions">
+        <button class="folder-action edit" onclick="event.stopPropagation(); openEditFolderModal(<%= folder.id %>, '<%= folder.name.replace(/'/g, "\\'") %>')" title="Edit folder">
+          ✏️
+        </button>
+        <button class="folder-action delete" onclick="event.stopPropagation(); openDeleteFolderModal(<%= folder.id %>, '<%= folder.name.replace(/'/g, "\\'") %>')" title="Delete folder">
+          🗑️
+        </button>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <div class="folders-empty-state">
+    <div class="folders-empty-icon">📁</div>
+    <h3>No folders yet</h3>
+    <p>Create your first folder to get organized</p>
+  </div>
+  <% } %>
+</div>
