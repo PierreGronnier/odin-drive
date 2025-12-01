@@ -4,6 +4,7 @@
 @import url("dashboard/files.css");
 @import url("dashboard/upload.css");
 @import url("dashboard/modals.css");
+@import url('dashboard/stats.css'); 
 
 .message {
   padding: 16px 20px;

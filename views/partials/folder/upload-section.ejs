@@ -1,0 +1,40 @@
+<!-- Upload Section for this specific folder -->
+<div class="upload-section">
+  <h2 class="section-title">
+    <i class="section-icon">📤</i>
+    Add files to "<%= currentFolder.name %>"
+  </h2>
+  
+  <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form" onsubmit="return validateFileSize(this)">
+    <input type="hidden" name="folderId" value="<%= currentFolder.id %>">
+    
+    <div class="file-input-wrapper">
+      <input type="file" name="file" id="folderFileInput" class="file-input" 
+             required onchange="handleFileSelect(this)" />
+      <label for="folderFileInput" class="file-input-label">
+        <div class="upload-placeholder" id="folderUploadPlaceholder">
+          <i class="upload-icon">📤</i>
+          <div class="upload-text">
+            <h3>Drop files here to add to this folder</h3>
+            <p>or click to browse</p>
+          </div>
+        </div>
+        <div class="file-preview" id="folderFilePreview" style="display: none">
+          <div class="preview-content">
+            <i class="preview-icon" id="folderPreviewIcon">📁</i>
+            <div class="preview-info">
+              <h4 id="folderFileName"></h4>
+              <p id="folderFileSize"></p>
+            </div>
+            <button type="button" class="remove-file" onclick="removeSelectedFile()">×</button>
+          </div>
+        </div>
+      </label>
+    </div>
+    
+    <div id="folderFileMessage" class="file-message"></div>
+    <button type="submit" class="btn btn-primary">
+      <i class="button-icon">↑</i> Upload to this folder
+    </button>
+  </form>
+</div>

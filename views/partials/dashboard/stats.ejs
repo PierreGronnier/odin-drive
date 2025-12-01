@@ -1,0 +1,25 @@
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">📁</div>
+    <div class="stat-content">
+      <h3 class="stat-number"><%= totalFolders || 0 %></h3>
+      <p class="stat-label">Total Folders</p>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">📄</div>
+    <div class="stat-content">
+      <h3 class="stat-number"><%= totalFiles || 0 %></h3>
+      <p class="stat-label">Total Files</p>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">💾</div>
+    <div class="stat-content">
+      <h3 class="stat-number"><%= formatFileSize(totalSize || 0) %></h3>
+      <p class="stat-label">Storage Used</p>
+    </div>
+  </div>
+</div>

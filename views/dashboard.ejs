@@ -1,51 +1,50 @@
 <div class="dashboard-content">
   <!-- Messages -->
-  <%- include('partials/messages') %>
+  <%- include('partials/shared/messages') %>
 
   <!-- Header -->
   <div class="dashboard-header">
-    <h1 class="dashboard-title">
-      <% if (currentFolder) { %> 📁 <%= currentFolder.name %> <% } else { %>
-      Welcome to Odin Drive <% } %>
-    </h1>
+    <h1 class="dashboard-title">Welcome to Odin Drive</h1>
     <p class="dashboard-subtitle">
       Hello, <span class="user-email"><%= user.email %></span>
     </p>
-    <p class="dashboard-description">Your secure cloud storage solution</p>
   </div>
 
-  <!-- Breadcrumb -->
-  <% if (currentFolder) { %>
-  <div class="breadcrumb">
-    <div class="breadcrumb-item">
-      <a href="/dashboard" class="breadcrumb-link">Home</a>
-      <span class="breadcrumb-separator">/</span>
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <h2 class="section-title">Overview</h2>
+    <%- include('partials/dashboard/stats') %>
+  </div>
+
+  <!-- Folders Section -->
+  <div class="folders-section">
+    <div class="section-header">
+      <h2 class="section-title">Your Folders</h2>
+      <button class="btn btn-primary" onclick="openCreateFolderModal()">
+        <i class="button-icon">📁</i>
+        New Folder
+      </button>
     </div>
-    <div class="breadcrumb-item">
-      <span><%= currentFolder.name %></span>
-    </div>
-  </div>
-  <% } %>
 
-  <!-- Action Buttons -->
-  <div class="action-buttons">
-    <button class="btn btn-primary" onclick="openCreateFolderModal()">
-      <i class="button-icon">📁</i>
-      New Folder
-    </button>
-    <button
-      class="btn btn-primary"
-      onclick="document.getElementById('fileInput').click()"
-    >
-      <i class="button-icon">📄</i>
-      Upload File
-    </button>
+    <% if (folders && folders.length > 0) { %>
+      <%- include('partials/shared/folder-grid', { folders: folders }) %>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">📁</div>
+        <h3>No folders yet</h3>
+        <p>Create your first folder to organize your files</p>
+        <button class="btn btn-primary" onclick="openCreateFolderModal()">
+          Create First Folder
+        </button>
+      </div>
+    <% } %>
   </div>
 
-  <%- include('partials/folder-section') %> <%-
-  include('partials/upload-section') %> <%- include('partials/file-section') %>
+  <!-- Recent Files Section -->
+  <%- include('partials/dashboard/recent-files', { files: files }) %>
+
+  <!-- Modals -->
+  <%- include('partials/shared/modals') %>
 </div>
-
-<%- include('partials/modals') %>
 
 <script src="/js/dashboard.js"></script>

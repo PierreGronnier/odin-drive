@@ -56,6 +56,21 @@ class FileService {
       fs.unlinkSync(filePath);
     }
   }
+
+  static async getAllUserFiles(userId) {
+    return await prisma.file.findMany({
+      where: { userId },
+      include: {
+        folder: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
 }
 
 module.exports = FileService;

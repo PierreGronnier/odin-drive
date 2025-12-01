@@ -4,37 +4,44 @@ const FolderService = require("../services/folderService");
 class FileController {
   static async getDashboard(req, res) {
     try {
-      const folderId = req.params.id || null;
-      const files = await FileService.getUserFiles(req.user.id, folderId);
-      const folders = folderId
-        ? await FolderService.getFolderById(folderId, req.user.id)
-        : await FolderService.getRootFolders(req.user.id);
+      const folders = await FolderService.getRootFolders(req.user.id);
 
-      let currentFolder = null;
-      if (folderId) {
-        currentFolder = await FolderService.getFolderById(
-          folderId,
-          req.user.id
-        );
+      const allFiles = await FileService.getAllUserFiles(req.user.id);
+
+      let totalFolders = 0;
+      try {
+        totalFolders = await FolderService.countUserFolders(req.user.id);
+      } catch (e) {
+        totalFolders = folders.length;
       }
+
+      const totalFiles = allFiles.length;
+      const totalSize = allFiles.reduce(
+        (sum, file) => sum + (file.size || 0),
+        0
+      );
+
+      const recentFiles = allFiles.slice(0, 10);
 
       res.render("dashboard", {
         title: "Your Drive",
         user: req.user,
-        files: files,
-        folders: folders?.children || folders,
-        currentFolder: currentFolder,
-        folderId: folderId,
+        folders: folders,
+        files: recentFiles,
+        totalFolders: totalFolders,
+        totalFiles: totalFiles,
+        totalSize: totalSize,
       });
     } catch (error) {
       console.error("Dashboard error:", error);
       res.render("dashboard", {
         title: "Your Drive",
         user: req.user,
-        files: [],
         folders: [],
-        currentFolder: null,
-        folderId: null,
+        files: [],
+        totalFolders: 0,
+        totalFiles: 0,
+        totalSize: 0,
       });
     }
   }
@@ -43,7 +50,7 @@ class FileController {
     try {
       if (!req.file) {
         req.session.error = "Please select a file to upload";
-        return res.redirect("/dashboard");
+        return res.redirect(req.headers.referer || "/dashboard");
       }
 
       const fileData = {
@@ -60,19 +67,15 @@ class FileController {
 
       req.session.success = `File "${req.file.originalname}" uploaded successfully!`;
 
-      const redirectUrl = req.body.folderId
-        ? `/folder/${req.body.folderId}`
-        : "/dashboard";
-      res.redirect(redirectUrl);
+      if (req.body.folderId) {
+        return res.redirect(`/folder/${req.body.folderId}`);
+      }
+      return res.redirect("/dashboard");
     } catch (error) {
       console.error("Upload error:", error);
       FileService.cleanupFile(req.file?.path);
-
       req.session.error = this.getErrorMessage(error);
-      const redirectUrl = req.body.folderId
-        ? `/folder/${req.body.folderId}`
-        : "/dashboard";
-      res.redirect(redirectUrl);
+      res.redirect(req.headers.referer || "/dashboard");
     }
   }
 

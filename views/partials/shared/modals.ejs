@@ -2,14 +2,14 @@
 <div id="createFolderModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 class="modal-title">Create New Folder</h3>
+      <h3 class="modal-title" id="createModalTitle">Create New Folder</h3>
       <button class="modal-close" onclick="closeCreateFolderModal()">
         &times;
       </button>
     </div>
     <form id="createFolderForm" action="/folders" method="POST">
       <div class="modal-body">
-        <input type="hidden" name="parentId" value="<%= folderId || '' %>" />
+        <input type="hidden" name="parentId" id="modalParentId" value="" />
         <div class="form-group">
           <label class="form-label" for="folderName">Folder Name</label>
           <input
@@ -30,7 +30,9 @@
         >
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary">Create Folder</button>
+        <button type="submit" class="btn btn-primary" id="createModalButton">
+          Create Folder
+        </button>
       </div>
     </form>
   </div>

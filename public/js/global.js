@@ -1,6 +1,21 @@
-// Folder modals functions
-function openCreateFolderModal() {
-  document.getElementById("createFolderModal").style.display = "block";
+// MODAL FUNCTIONS
+function openCreateFolderModal(parentId = null) {
+  const modal = document.getElementById("createFolderModal");
+  const title = document.getElementById("createModalTitle");
+  const button = document.getElementById("createModalButton");
+  const parentInput = document.getElementById("modalParentId");
+
+  parentInput.value = parentId || "";
+
+  if (parentId) {
+    title.textContent = "Create Subfolder";
+    button.textContent = "Create Subfolder";
+  } else {
+    title.textContent = "Create New Folder";
+    button.textContent = "Create Folder";
+  }
+
+  modal.style.display = "block";
 }
 
 function closeCreateFolderModal() {
@@ -31,18 +46,18 @@ function closeDeleteFolderModal() {
   document.getElementById("deleteFolderModal").style.display = "none";
 }
 
-// Open folder
+// FOLDER NAVIGATION
 function openFolder(folderId) {
   window.location.href = `/folder/${folderId}`;
 }
 
-// File handling functions
+// FILE UPLOAD FUNCTIONS
 function handleFileSelect(input) {
-  const uploadPlaceholder = document.getElementById("uploadPlaceholder");
-  const filePreview = document.getElementById("filePreview");
-  const fileName = document.getElementById("fileName");
-  const fileSize = document.getElementById("fileSize");
-  const fileMessage = document.getElementById("fileMessage");
+  const uploadPlaceholder = document.getElementById("folderUploadPlaceholder");
+  const filePreview = document.getElementById("folderFilePreview");
+  const fileName = document.getElementById("folderFileName");
+  const fileSize = document.getElementById("folderFileSize");
+  const fileMessage = document.getElementById("folderFileMessage");
 
   const maxSizeMB = 100;
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -58,14 +73,14 @@ function handleFileSelect(input) {
 
     if (file.size > maxSizeBytes) {
       fileMessage.innerHTML = `<div class="message error">
-      <i class="message-icon">✗</i>
-      File too large: ${fileSizeMB}MB > ${maxSizeMB}MB max
-    </div>`;
+        <i class="message-icon">✗</i>
+        File too large: ${fileSizeMB}MB > ${maxSizeMB}MB max
+      </div>`;
     } else {
       fileMessage.innerHTML = `<div class="message success">
-      <i class="message-icon">✓</i>
-      Ready to upload: ${fileSizeMB}MB / ${maxSizeMB}MB
-    </div>`;
+        <i class="message-icon">✓</i>
+        Ready to upload: ${fileSizeMB}MB / ${maxSizeMB}MB
+      </div>`;
     }
   } else {
     removeSelectedFile();
@@ -73,16 +88,16 @@ function handleFileSelect(input) {
 }
 
 function removeSelectedFile() {
-  const fileInput = document.getElementById("fileInput");
-  const uploadPlaceholder = document.getElementById("uploadPlaceholder");
-  const filePreview = document.getElementById("filePreview");
-  const fileMessage = document.getElementById("fileMessage");
+  const fileInput = document.getElementById("folderFileInput");
+  const uploadPlaceholder = document.getElementById("folderUploadPlaceholder");
+  const filePreview = document.getElementById("folderFilePreview");
+  const fileMessage = document.getElementById("folderFileMessage");
 
   fileInput.value = "";
   uploadPlaceholder.style.display = "block";
   filePreview.style.display = "none";
   fileMessage.innerHTML = "";
-  event.stopPropagation();
+  if (event) event.stopPropagation();
 }
 
 function validateFileSize(form) {
@@ -103,7 +118,33 @@ function validateFileSize(form) {
   return true;
 }
 
-// Close modals when clicking outside
+// DRAG & DROP pour FOLDER UPLOAD
+document.addEventListener("DOMContentLoaded", function () {
+  const folderFileInput = document.getElementById("folderFileInput");
+  if (folderFileInput) {
+    const fileInputLabel = folderFileInput.nextElementSibling;
+
+    if (fileInputLabel) {
+      fileInputLabel.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        fileInputLabel.classList.add("dragover");
+      });
+
+      fileInputLabel.addEventListener("dragleave", () => {
+        fileInputLabel.classList.remove("dragover");
+      });
+
+      fileInputLabel.addEventListener("drop", (e) => {
+        e.preventDefault();
+        fileInputLabel.classList.remove("dragover");
+        folderFileInput.files = e.dataTransfer.files;
+        handleFileSelect(folderFileInput);
+      });
+    }
+  }
+});
+
+// MODAL CLOSE ON CLICK OUTSIDE
 window.onclick = function (event) {
   const modals = document.querySelectorAll(".modal");
   modals.forEach((modal) => {
@@ -113,26 +154,10 @@ window.onclick = function (event) {
   });
 };
 
-// Drag and drop
+// INITIALIZATION
 document.addEventListener("DOMContentLoaded", function () {
-  const fileInput = document.getElementById("fileInput");
-  const fileInputLabel = document.querySelector(".file-input-label");
-
-  if (fileInputLabel) {
-    fileInputLabel.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      fileInputLabel.classList.add("dragover");
-    });
-
-    fileInputLabel.addEventListener("dragleave", () => {
-      fileInputLabel.classList.remove("dragover");
-    });
-
-    fileInputLabel.addEventListener("drop", (e) => {
-      e.preventDefault();
-      fileInputLabel.classList.remove("dragover");
-      fileInput.files = e.dataTransfer.files;
-      handleFileSelect(fileInput);
-    });
+  const folderFileInput = document.getElementById("folderFileInput");
+  if (folderFileInput) {
+    setupDragAndDrop("folderFileInput");
   }
 });

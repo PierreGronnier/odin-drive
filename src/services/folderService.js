@@ -36,6 +36,18 @@ class FolderService {
           },
           orderBy: { createdAt: "desc" },
         },
+        parent: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        _count: {
+          select: {
+            files: true,
+            children: true,
+          },
+        },
       },
     });
   }
@@ -88,6 +100,27 @@ class FolderService {
         },
       },
       orderBy: { createdAt: "desc" },
+    });
+  }
+
+  static async countUserFolders(userId) {
+    const count = await prisma.folder.count({
+      where: { userId },
+    });
+    return count;
+  }
+
+  static async getAllUserFolders(userId) {
+    return await prisma.folder.findMany({
+      where: { userId },
+      include: {
+        _count: {
+          select: {
+            files: true,
+            children: true,
+          },
+        },
+      },
     });
   }
 }

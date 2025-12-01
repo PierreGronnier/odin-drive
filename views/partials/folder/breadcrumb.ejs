@@ -1,0 +1,18 @@
+<nav class="breadcrumb">
+  <a href="/dashboard" class="breadcrumb-link">
+    <i class="breadcrumb-icon">🏠</i> Dashboard
+  </a>
+
+  <% if (currentFolder && currentFolder.parent) { %>
+  <span class="breadcrumb-separator">›</span>
+  <a href="/folder/<%= currentFolder.parent.id %>" class="breadcrumb-link">
+    <%= currentFolder.parent.name %>
+  </a>
+  <% } %> <% if (currentFolder) { %>
+  <span class="breadcrumb-separator">›</span>
+  <span class="breadcrumb-current">
+    <i class="breadcrumb-folder-icon">📁</i>
+    <%= currentFolder.name %>
+  </span>
+  <% } %>
+</nav>
