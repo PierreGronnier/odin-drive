@@ -1,0 +1,18 @@
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <h1>404 - Page Not Found</h1>
+    
+    <%- include('partials/shared/messages') %>
+    
+    <p>The page you are looking for doesn't exist.</p>
+    
+    <div class="home-buttons">
+      <% if (user) { %>
+        <a href="/dashboard" class="btn">Go to Dashboard</a>
+      <% } else { %>
+        <a href="/" class="btn">Go to Home</a>
+        <a href="/auth/login" class="btn">Log In</a>
+      <% } %>
+    </div>
+  </div>
+</div>

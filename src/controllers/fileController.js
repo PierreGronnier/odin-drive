@@ -1,5 +1,6 @@
 const FileService = require("../services/fileService");
 const FolderService = require("../services/folderService");
+const ERRORS = require("../constants/errors");
 
 class FileController {
   static async getDashboard(req, res) {
@@ -12,6 +13,7 @@ class FileController {
       try {
         totalFolders = await FolderService.countUserFolders(req.user.id);
       } catch (e) {
+        console.error(`[DASHBOARD] Failed to count folders for user ${req.user.id}:`, e.message);
         totalFolders = folders.length;
       }
 
@@ -33,7 +35,12 @@ class FileController {
         totalSize: totalSize,
       });
     } catch (error) {
-      console.error("Dashboard error:", error);
+      console.error(`[DASHBOARD] Error for user ${req.user?.id}:`, {
+        message: error.message,
+        stack: error.stack,
+        userId: req.user?.id
+      });
+      req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
       res.render("dashboard", {
         title: "Your Drive",
         user: req.user,
@@ -72,7 +79,14 @@ class FileController {
       }
       return res.redirect("/dashboard");
     } catch (error) {
-      console.error("Upload error:", error);
+      console.error(`[UPLOAD] Failed for user ${req.user.id}:`, {
+        fileName: req.file?.originalname,
+        folderId: req.body.folderId,
+        fileSize: req.file?.size,
+        error: error.message,
+        code: error.code
+      });
+      
       FileService.cleanupFile(req.file?.path);
       req.session.error = this.getErrorMessage(error);
       res.redirect(req.headers.referer || "/dashboard");
@@ -84,19 +98,25 @@ class FileController {
       const file = await FileService.getFileById(req.params.id, req.user.id);
 
       if (!file) {
-        req.session.error = "File not found";
+        console.error(`[DOWNLOAD] File not found: ID ${req.params.id}, User ${req.user.id}`);
+        req.session.error = ERRORS.FILE.NOT_FOUND;
         return res.redirect("/dashboard");
       }
 
       if (!require("fs").existsSync(file.path)) {
-        req.session.error = "File no longer exists on server";
+        console.error(`[DOWNLOAD] File missing on disk: ${file.path}`);
+        req.session.error = ERRORS.FILE.NOT_FOUND;
         return res.redirect("/dashboard");
       }
 
       res.download(file.path, file.originalName);
     } catch (error) {
-      console.error("Download error:", error);
-      req.session.error = "Error downloading file";
+      console.error(`[DOWNLOAD] Error for user ${req.user.id}:`, {
+        fileId: req.params.id,
+        error: error.message,
+        stack: error.stack
+      });
+      req.session.error = ERRORS.FILE.DOWNLOAD_FAILED;
       res.redirect("/dashboard");
     }
   }
@@ -108,13 +128,21 @@ class FileController {
       req.session.success = "File deleted successfully!";
       res.redirect("/dashboard");
     } catch (error) {
-      console.error("Delete error:", error);
-      req.session.error = "Error deleting file";
+      console.error(`[DELETE_FILE] Failed for user ${req.user.id}:`, {
+        fileId: req.params.id,
+        error: error.message,
+        code: error.code
+      });
+      req.session.error = ERRORS.FILE.DELETE_FAILED;
       res.redirect("/dashboard");
     }
   }
 
   static getErrorMessage(error) {
+    console.error(`[FILE_ERROR] Type: ${error.constructor.name}`);
+    console.error(`Message: ${error.message}`);
+    if (error.code) console.error(`Code: ${error.code}`);
+    
     if (error.message && error.message.startsWith("INVALID_FILE_TYPE:")) {
       const mimeType = error.message.split(":")[1];
       return `File type "${mimeType}" is not allowed. Please upload a supported file type.`;
@@ -124,11 +152,11 @@ class FileController {
     }
     if (error instanceof require("multer").MulterError) {
       if (error.code === "LIMIT_FILE_SIZE") {
-        return "File too large. Maximum size is 100MB.";
+        return ERRORS.FILE.TOO_LARGE;
       }
       return `Upload error: ${error.message}`;
     }
-    return "An unexpected error occurred";
+    return ERRORS.GENERAL.INTERNAL_ERROR;
   }
 }
 

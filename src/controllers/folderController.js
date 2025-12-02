@@ -1,4 +1,5 @@
 const FolderService = require("../services/folderService");
+const ERRORS = require("../constants/errors");
 
 class FolderController {
   static async createFolder(req, res) {
@@ -6,7 +7,7 @@ class FolderController {
       const { name, parentId } = req.body;
 
       if (!name || name.trim() === "") {
-        req.session.error = "Folder name is required";
+        req.session.error = ERRORS.FOLDER.NAME_REQUIRED;
         return res.redirect("/dashboard");
       }
 
@@ -25,8 +26,13 @@ class FolderController {
       }
       return res.redirect("/dashboard");
     } catch (error) {
-      console.error("Create folder error:", error);
-      req.session.error = "Error creating folder";
+      console.error(`[CREATE_FOLDER] Failed for user ${req.user.id}:`, {
+        name: req.body.name,
+        parentId: req.body.parentId,
+        error: error.message,
+        code: error.code
+      });
+      req.session.error = ERRORS.FOLDER.CREATE_FAILED;
       res.redirect("/dashboard");
     }
   }
@@ -37,7 +43,7 @@ class FolderController {
       const { id } = req.params;
 
       if (!name || name.trim() === "") {
-        req.session.error = "Folder name is required";
+        req.session.error = ERRORS.FOLDER.NAME_REQUIRED;
         return res.redirect("/dashboard");
       }
 
@@ -47,8 +53,13 @@ class FolderController {
 
       return res.redirect("/dashboard");
     } catch (error) {
-      console.error("Update folder error:", error);
-      req.session.error = "Error updating folder";
+      console.error(`[UPDATE_FOLDER] Failed for user ${req.user.id}:`, {
+        folderId: req.params.id,
+        newName: req.body.name,
+        error: error.message,
+        code: error.code
+      });
+      req.session.error = ERRORS.FOLDER.UPDATE_FAILED;
       res.redirect("/dashboard");
     }
   }
@@ -62,20 +73,25 @@ class FolderController {
       req.session.success = "Folder deleted successfully!";
       return res.redirect("/dashboard");
     } catch (error) {
-      console.error("Delete folder error:", error);
-      req.session.error = "Error deleting folder";
+      console.error(`[DELETE_FOLDER] Failed for user ${req.user.id}:`, {
+        folderId: req.params.id,
+        error: error.message,
+        code: error.code
+      });
+      req.session.error = ERRORS.FOLDER.DELETE_FAILED;
       res.redirect("/dashboard");
     }
   }
 
   static async renderFolder(req, res) {
   try {
-    const folderId = req.params.id;
+    const folderId = req.params.id; 
     
     const currentFolder = await FolderService.getFolderById(folderId, req.user.id);
     
     if (!currentFolder) {
-      req.session.error = "Folder not found";
+      console.error(`[RENDER_FOLDER] Folder not found: ID ${folderId}, User ${req.user.id}`);
+      req.session.error = ERRORS.FOLDER.NOT_FOUND;
       return res.redirect("/dashboard");
     }
 
@@ -90,8 +106,19 @@ class FolderController {
     });
     
   } catch (error) {
-    console.error("Render folder error:", error);
-    req.session.error = "Error accessing folder";
+    if (error.code?.startsWith('P') || error.message?.includes('Prisma')) {
+      console.error(`[PRISMA_ERROR] Folder ${req.params.id} for user ${req.user.id}:`, {
+        error: error.message.split('\n')[0]
+      });
+      req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
+    } else {
+      console.error(`[RENDER_FOLDER] Error for user ${req.user.id}:`, {
+        folderId: req.params.id,
+        error: error.message
+      });
+      req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
+    }
+    
     res.redirect("/dashboard");
   }
 }

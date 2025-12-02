@@ -4,6 +4,7 @@ const { body, validationResult } = require("express-validator");
 const passport = require("./passport");
 const prisma = require("../prismaClient");
 const { isGuest } = require("../middlewares/authMiddleware");
+const ERRORS = require("../constants/errors"); // AJOUTE CETTE LIGNE
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const registerValidationRules = [
     .custom(async (value) => {
       const user = await prisma.user.findUnique({ where: { email: value } });
       if (user) {
-        return Promise.reject("An account with this email already exists.");
+        return Promise.reject(ERRORS.AUTH.EMAIL_EXISTS);
       }
     }),
   body("password")
@@ -62,10 +63,14 @@ router.post("/register", isGuest, registerValidationRules, async (req, res) => {
     req.session.success = "Account created successfully! You can now log in.";
     res.redirect("/auth/login");
   } catch (err) {
-    console.error("Unexpected registration error:", err);
+    console.error(`[REGISTER] Failed for email ${email}:`, {
+      error: err.message,
+      code: err.code,
+      stack: err.stack
+    });
     res.render("register", {
       title: "Create Account",
-      error: "An unexpected error occurred during account creation.",
+      error: ERRORS.GENERAL.INTERNAL_ERROR,
       email: req.body.email,
     });
   }
@@ -87,16 +92,26 @@ router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
   }
 
   passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
+    if (err) {
+      console.error(`[LOGIN] Authentication error for ${req.body.email}:`, err.message);
+      return next(err);
+    }
+    
     if (!user) {
+      console.error(`[LOGIN] Failed login attempt for ${req.body.email}: ${info?.message}`);
       return res.render("login", {
         title: "Log In",
-        error: info.message || "Email or password incorrect",
+        error: ERRORS.AUTH.INVALID_CREDENTIALS,
       });
     }
 
     req.logIn(user, (err) => {
-      if (err) return next(err);
+      if (err) {
+        console.error(`[LOGIN] Session error for user ${user.id}:`, err.message);
+        return next(err);
+      }
+      
+      console.log(`[LOGIN] Successful login for user ${user.id} (${user.email})`);
       req.session.success = "Login successful! Welcome!";
       return res.redirect("/dashboard");
     });
@@ -105,6 +120,7 @@ router.post("/login", isGuest, loginValidationRules, (req, res, next) => {
 
 // LOGOUT
 router.get("/logout", (req, res) => {
+  console.log(`[LOGOUT] User ${req.user?.id} logged out`);
   req.logout(() => {
     req.session.success = "You have been successfully logged out.";
     res.redirect("/");

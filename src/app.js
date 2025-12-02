@@ -59,4 +59,10 @@ app.use("/auth", authRoutes);
 // Gestion d'erreurs Multer
 app.use(multerErrorHandler);
 
+// Middleware pour les 404 (AJOUTE À LA FIN)
+app.use((req, res) => {
+  console.error(`[404] Route not found: ${req.method} ${req.path}`);
+  res.status(404).render("404", { title: "Page Not Found", user: req.user });
+});
+
 app.listen(3000, () => console.log("Server running at http://localhost:3000"));
