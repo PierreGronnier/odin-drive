@@ -21,7 +21,9 @@
     <div class="section-header">
       <h2 class="section-title">Your Folders</h2>
       <button class="btn btn-primary" onclick="openCreateFolderModal()">
-        <i class="button-icon">📁</i>
+        <i class="button-icon">
+          <img src="/icon/folder.png" alt="New folder" class="button-image-icon">
+        </i>
         New Folder
       </button>
     </div>
@@ -30,7 +32,9 @@
       <%- include('partials/shared/folder-grid', { folders: folders }) %>
     <% } else { %>
       <div class="empty-state">
-        <div class="empty-icon">📁</div>
+        <div class="empty-icon">
+          <img src="/icon/folder.png" alt="Empty folder" class="empty-image-icon">
+        </div>
         <h3>No folders yet</h3>
         <p>Create your first folder to organize your files</p>
         <button class="btn btn-primary" onclick="openCreateFolderModal()">

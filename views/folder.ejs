@@ -1,24 +1,22 @@
 <div class="folder-content">
-  <!-- Messages -->
   <%- include('partials/shared/messages') %>
 
-  <!-- Header -->
   <div class="folder-header">
     <h1 class="folder-title">
-      <i class="folder-title-icon">📁</i>
+      <i class="folder-title-icon"><img src="/icon/folder.png" alt="Folder"></i>
       <%= currentFolder.name %>
     </h1>
     
-    <!-- Breadcrumb -->
     <%- include('partials/folder/breadcrumb', { currentFolder: currentFolder }) %>
   </div>
 
-  <!-- Stats du dossier -->
   <div class="stats-section">
     <h2 class="section-title">Folder Overview</h2>
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">📄</div>
+        <div class="stat-icon">
+          <img src="/icon/files.png" alt="File" class="stat-image-icon">
+        </div>
         <div class="stat-content">
           <h3 class="stat-number"><%= currentFolder._count ? currentFolder._count.files : 0 %></h3>
           <p class="stat-label">Files</p>
@@ -26,7 +24,9 @@
       </div>
       
       <div class="stat-card">
-        <div class="stat-icon">📁</div>
+        <div class="stat-icon">
+          <img src="/icon/folder.png" alt="Subfolder" class="stat-image-icon">
+        </div>
         <div class="stat-content">
           <h3 class="stat-number"><%= currentFolder._count ? currentFolder._count.children : 0 %></h3>
           <p class="stat-label">Subfolders</p>
@@ -34,7 +34,9 @@
       </div>
       
       <div class="stat-card">
-        <div class="stat-icon">📅</div>
+        <div class="stat-icon">
+          <img src="/icon/calendar.png" alt="Calendar" class="stat-image-icon">
+        </div>
         <div class="stat-content">
           <h3 class="stat-number"><%= new Date(currentFolder.createdAt).toLocaleDateString() %></h3>
           <p class="stat-label">Created</p>
@@ -43,30 +45,36 @@
     </div>
   </div>
 
-  <!-- Action Buttons -->
   <div class="action-buttons">
     <button class="btn btn-primary" onclick="openCreateFolderModal(<%= currentFolder.id %>)">
-      <i class="button-icon">📁</i>
+      <i class="button-icon">
+        <img src="/icon/folder.png" alt="Folder" class="button-image-icon">
+      </i>
       New Subfolder
     </button>
-    <button class="btn btn-secondary" onclick="document.getElementById('folderFileInput').click()">
-      <i class="button-icon">📄</i>
+    <button class="btn btn-upload" onclick="document.getElementById('folderFileInput').click()">
+      <i class="button-icon">
+        <img src="/icon/upload.png" alt="Files" class="button-image-icon">
+      </i>
       Add Files
     </button>
     <% if (currentFolder.parentId) { %>
       <a href="/folder/<%= currentFolder.parentId %>" class="btn btn-outline">
-        <i class="button-icon">⬆️</i>
+        <i class="button-icon">
+          <img src="/icon/back.png" alt="Parent" class="button-image-icon">
+        </i>
         Go to Parent
       </a>
     <% } else { %>
       <a href="/dashboard" class="btn btn-outline">
-        <i class="button-icon">🏠</i>
+        <i class="button-icon">
+          <img src="/icon/back.png" alt="Dashboard" class="button-image-icon">
+        </i>
         Back to Dashboard
       </a>
     <% } %>
   </div>
 
-  <!-- Subfolders -->
   <div class="folders-section">
     <div class="section-header">
       <h2 class="section-title">Subfolders</h2>
@@ -79,7 +87,9 @@
       <%- include('partials/shared/folder-grid', { folders: folders }) %>
     <% } else { %>
       <div class="empty-state small">
-        <div class="empty-icon">📁</div>
+        <div class="empty-icon">
+          <img src="/icon/folder.png" alt="Empty folder" class="empty-image-icon">
+        </div>
         <p>No subfolders in this folder</p>
         <button class="btn btn-outline" onclick="openCreateFolderModal(<%= currentFolder.id %>)">
           Create First Subfolder
@@ -88,12 +98,9 @@
     <% } %>
   </div>
 
-  <!-- Upload to this folder -->
   <%- include('partials/folder/upload-section', { currentFolder: currentFolder }) %>
 
-  <!-- Files in this folder -->
   <%- include('partials/folder/folder-files', { files: files }) %>
 
-  <!-- Modals -->
   <%- include('partials/shared/modals') %>
 </div>

@@ -10,7 +10,9 @@
   <div class="files-list">
     <% files.forEach(file => { %>
     <div class="file-item">
-      <div class="file-icon"><%- getFileIcon(file.mimetype) %></div>
+      <div class="file-icon">
+        <img src="<%= getFileIcon(file.mimetype) %>" alt="Icône de fichier" class="icon">
+      </div>
       <div class="file-details">
         <h3 class="file-name"><%= file.originalName %></h3>
         <div class="file-meta">
@@ -40,7 +42,7 @@
   </div>
   <% } else { %>
   <div class="empty-state">
-    <div class="empty-icon">📄</div>
+    <div class="empty-icon">📄</div> 
     <h3>No recent files</h3>
     <p>Upload files to see them here</p>
   </div>

@@ -98,7 +98,7 @@ class FolderController {
     const files = currentFolder.files || [];
 
     res.render("folder", {
-      title: `📁 ${currentFolder.name}`,
+      title: `${currentFolder.name}`,
       user: req.user,
       files: files,
       folders: currentFolder.children || [],

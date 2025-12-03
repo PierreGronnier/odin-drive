@@ -1,7 +1,9 @@
 <!-- Upload Section for this specific folder -->
 <div class="upload-section">
   <h2 class="section-title">
-    <i class="section-icon">📤</i>
+    <i class="section-icon">
+      <img src="/icon/cloud.png" alt="Cloud upload Icon" class="section-image-icon">
+    </i>
     Add files to "<%= currentFolder.name %>"
   </h2>
   
@@ -13,7 +15,9 @@
              required onchange="handleFileSelect(this)" />
       <label for="folderFileInput" class="file-input-label">
         <div class="upload-placeholder" id="folderUploadPlaceholder">
-          <i class="upload-icon">📤</i>
+          <i class="upload-icon">
+            <img src="/icon/cloud.png" alt="Cloud upload Placeholder" class="upload-image-icon">
+          </i>
           <div class="upload-text">
             <h3>Drop files here to add to this folder</h3>
             <p>or click to browse</p>
@@ -21,7 +25,9 @@
         </div>
         <div class="file-preview" id="folderFilePreview" style="display: none">
           <div class="preview-content">
-            <i class="preview-icon" id="folderPreviewIcon">📁</i>
+            <i class="preview-icon" id="folderPreviewIcon">
+              <img src="/icon/file.png" alt="File Preview Icon" class="preview-image-icon">
+            </i>
             <div class="preview-info">
               <h4 id="folderFileName"></h4>
               <p id="folderFileSize"></p>

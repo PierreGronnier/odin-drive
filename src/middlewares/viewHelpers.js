@@ -1,15 +1,15 @@
 function viewHelpers(req, res, next) {
   // Helper pour les icônes de fichiers
   res.locals.getFileIcon = (mimetype) => {
-    if (mimetype.startsWith("image/")) return "🖼️";
-    if (mimetype.startsWith("video/")) return "🎬";
-    if (mimetype.startsWith("audio/")) return "🎵";
-    if (mimetype === "application/pdf") return "📄";
-    if (mimetype.includes("word") || mimetype.includes("document")) return "📝";
+    if (mimetype.startsWith("image/")) return "/icon/img.png";
+    if (mimetype.startsWith("video/")) return "/icon/video.png";
+    if (mimetype.startsWith("audio/")) return "/icon/audio.png";
+    if (mimetype === "application/pdf") return "/icon/pdf.png";
+    if (mimetype.includes("word") || mimetype.includes("document")) return "/icon/doc.png";
     if (mimetype.includes("excel") || mimetype.includes("spreadsheet"))
-      return "📊";
-    if (mimetype.includes("zip") || mimetype.includes("rar")) return "📦";
-    if (mimetype.startsWith("text/")) return "📃";
+      return "/icon/word.png";
+    if (mimetype.includes("zip") || mimetype.includes("rar")) return "/icon/zip.png";
+    if (mimetype.startsWith("text/")) return "/icon/txt.png";
     return "📁";
   };
 
