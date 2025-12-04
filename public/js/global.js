@@ -153,11 +153,3 @@ window.onclick = function (event) {
     }
   });
 };
-
-// INITIALIZATION
-document.addEventListener("DOMContentLoaded", function () {
-  const folderFileInput = document.getElementById("folderFileInput");
-  if (folderFileInput) {
-    setupDragAndDrop("folderFileInput");
-  }
-});

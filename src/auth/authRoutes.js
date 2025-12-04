@@ -4,7 +4,7 @@ const { body, validationResult } = require("express-validator");
 const passport = require("./passport");
 const prisma = require("../prismaClient");
 const { isGuest } = require("../middlewares/authMiddleware");
-const ERRORS = require("../constants/errors"); // AJOUTE CETTE LIGNE
+const ERRORS = require("../constants/errors"); 
 
 const router = express.Router();
 

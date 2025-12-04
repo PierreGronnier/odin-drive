@@ -37,12 +37,11 @@
   </div>
   <% } else { %>
   <div class="empty-state">
-    <div class="empty-icon">📄</div>
-    <h3>No files in this folder yet</h3>
-    <p>Upload files to get started</p>
-    <button class="btn btn-primary" onclick="document.getElementById('folderFileInput').click()">
-      Upload First File
-    </button>
+    <div class="empty-icon">
+        <img src="/icon/files.png" alt="empty icon" class="empty-image-icon-small">
+    </div> 
+    <h3>No recent files</h3>
+    <p>Upload files to see them here</p>
   </div>
   <% } %>
 </div>

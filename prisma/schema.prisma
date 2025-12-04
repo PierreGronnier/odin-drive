@@ -14,7 +14,7 @@ model User {
   password String
   sessions Session[]
   files    File[]
-  folders  Folder[]  // Ajoutez cette ligne
+  folders  Folder[] 
 }
 
 model Session {
