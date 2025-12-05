@@ -1,5 +1,5 @@
-const FolderService = require("../services/folderService");
-const ERRORS = require("../constants/errors");
+const FolderService = require('../services/folderService');
+const ERRORS = require('../constants/errors');
 
 class FolderController {
   static async createFolder(req, res) {
@@ -84,44 +84,45 @@ class FolderController {
   }
 
   static async renderFolder(req, res) {
-  try {
-    const folderId = req.params.id; 
-    
-    const currentFolder = await FolderService.getFolderById(folderId, req.user.id);
-    
-    if (!currentFolder) {
-      console.error(`[RENDER_FOLDER] Folder not found: ID ${folderId}, User ${req.user.id}`);
-      req.session.error = ERRORS.FOLDER.NOT_FOUND;
-      return res.redirect("/dashboard");
-    }
+    try {
+      const folderId = req.params.id; 
+      
+      const currentFolder = await FolderService.getFolderById(folderId, req.user.id);
+      
+      if (!currentFolder) {
+        console.error(`[RENDER_FOLDER] Folder not found: ID ${folderId}, User ${req.user.id}`);
+        req.session.error = ERRORS.FOLDER.NOT_FOUND;
+        return res.redirect("/dashboard");
+      }
 
-    const files = currentFolder.files || [];
+      const files = currentFolder.files || [];
 
-    res.render("folder", {
-      title: `${currentFolder.name}`,
-      user: req.user,
-      files: files,
-      folders: currentFolder.children || [],
-      currentFolder: currentFolder
-    });
-    
-  } catch (error) {
-    if (error.code?.startsWith('P') || error.message?.includes('Prisma')) {
-      console.error(`[PRISMA_ERROR] Folder ${req.params.id} for user ${req.user.id}:`, {
-        error: error.message.split('\n')[0]
+      res.render("folder", {
+        title: `${currentFolder.name}`,
+        user: req.user,
+        files: files,
+        folders: currentFolder.children || [],
+        currentFolder: currentFolder,
+        baseUrl: `${req.protocol}://${req.get('host')}`
       });
-      req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
-    } else {
-      console.error(`[RENDER_FOLDER] Error for user ${req.user.id}:`, {
-        folderId: req.params.id,
-        error: error.message
-      });
-      req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
+      
+    } catch (error) {
+      if (error.code?.startsWith('P') || error.message?.includes('Prisma')) {
+        console.error(`[PRISMA_ERROR] Folder ${req.params.id} for user ${req.user.id}:`, {
+          error: error.message.split('\n')[0]
+        });
+        req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
+      } else {
+        console.error(`[RENDER_FOLDER] Error for user ${req.user.id}:`, {
+          folderId: req.params.id,
+          error: error.message
+        });
+        req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
+      }
+      
+      res.redirect("/dashboard");
     }
-    
-    res.redirect("/dashboard");
   }
-}
 }
 
 module.exports = FolderController;

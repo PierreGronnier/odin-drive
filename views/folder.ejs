@@ -3,7 +3,9 @@
 
   <div class="folder-header">
     <h1 class="folder-title">
-      <i class="folder-title-icon"><img src="/icon/folder.png" alt="Folder"></i>
+      <div class="folder-title-icon">
+        <img src="/icon/folder.png" alt="Folder">
+      </div>
       <%= currentFolder.name %>
     </h1>
     
@@ -47,32 +49,122 @@
 
   <div class="action-buttons">
     <button class="btn btn-primary" onclick="openCreateFolderModal(<%= currentFolder.id %>)">
-      <i class="button-icon">
+      <div class="button-icon">
         <img src="/icon/folder.png" alt="Folder" class="button-image-icon">
-      </i>
+      </div>
       New Subfolder
     </button>
+    
     <button class="btn btn-upload" onclick="document.getElementById('folderFileInput').click()">
-      <i class="button-icon">
+      <div class="button-icon">
         <img src="/icon/upload.png" alt="Files" class="button-image-icon">
-      </i>
+      </div>
       Add Files
     </button>
+    
     <% if (currentFolder.parentId) { %>
       <a href="/folder/<%= currentFolder.parentId %>" class="btn btn-outline">
-        <i class="button-icon">
+        <div class="button-icon">
           <img src="/icon/back.png" alt="Parent" class="button-image-icon">
-        </i>
+        </div>
         Go to Parent
       </a>
     <% } else { %>
       <a href="/dashboard" class="btn btn-outline">
-        <i class="button-icon">
+        <div class="button-icon">
           <img src="/icon/back.png" alt="Dashboard" class="button-image-icon">
-        </i>
+        </div>
         Back to Dashboard
       </a>
     <% } %>
+  </div>
+
+  <!-- Section Partage -->
+  <div class="share-form-box">
+    <div class="share-form-title">
+      <div class="share-form-icon">
+        <img src="/icon/share.png" alt="Share">
+      </div>
+      <h3 class="share-form-title-text">Share this folder</h3>
+    </div>
+    
+    <p class="share-description">
+      Generate a link to share this folder with anyone. They will be able to view and download files without needing an account.
+    </p>
+    
+    <% if (typeof shareUrl !== 'undefined' && shareUrl) { %>
+      <div class="share-link-generated">
+        <div class="share-link-header">
+          <div class="share-link-success-icon">
+            <img src="/icon/link.png" alt="Link">
+          </div>
+          <div class="share-link-success-content">
+            <strong class="share-link-success-title">Share link created!</strong>
+            <p class="share-link-success-subtitle">
+              Valid for <%= req.session.shareDuration || 7 %> days
+            </p>
+          </div>
+        </div>
+        
+        <input type="text" 
+               value="<%= shareUrl %>" 
+               readonly 
+               class="share-link-input">
+        
+        <button class="copy-btn" data-copy="<%= shareUrl %>">
+          <div class="copy-btn-icon">
+            <img src="/icon/copy.png" alt="Copy">
+          </div>
+          Copy Link
+        </button>
+        
+        <p class="share-link-note">
+          Share this link with anyone. They can view and download files without logging in.
+        </p>
+      </div>
+    <% } %>
+    
+    <form action="/folders/<%= currentFolder.id %>/share" method="POST">
+      <div class="share-form-fields">
+        <div class="share-field-group">
+          <label for="duration" class="share-field-label">
+            Link duration
+          </label>
+          <select name="duration" id="duration" class="share-field-select" required>
+            <option value="1">1 day</option>
+            <option value="7" selected>7 days</option>
+            <option value="30">30 days</option>
+            <option value="90">90 days</option>
+            <option value="365">1 year</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary share-generate-btn">
+          <div class="share-icon share-generate-icon">
+            <img src="/icon/share.png" alt="Share">
+          </div>
+          Generate Share Link
+        </button>
+      </div>
+      
+      <p class="share-form-note">
+        <div class="share-form-note-icon">
+          <img src="/icon/clock.png" alt="Note">
+        </div>
+        <span class="share-form-note-text">
+          The link will automatically expire after the selected duration.
+        </span>
+      </p>
+    </form>
+    
+    <div class="share-form-footer">
+      <a href="/shares" class="btn btn-secondary share-all-links-btn">
+        <div class="share-icon share-all-links-icon">
+          <img src="/icon/share.png" alt="My shares">
+        </div>
+        View all my share links
+      </a>
+    </div>
   </div>
 
   <div class="folders-section">
@@ -90,7 +182,7 @@
         <div class="empty-icon">
           <img src="/icon/folder.png" alt="Empty folder" class="empty-image-icon">
         </div>
-        <p>No subfolders in this folder</p>
+        <p class="empty-state-text">No subfolders in this folder</p>
         <button class="btn btn-outline" onclick="openCreateFolderModal(<%= currentFolder.id %>)">
           Create First Subfolder
         </button>

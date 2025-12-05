@@ -6,35 +6,70 @@
 
     <link rel="icon" type="image/png" href="/icon/cloud.png"> 
 
+    <!-- CSS UNIVERSELS -->
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/navbar.css" />
     <link rel="stylesheet" href="/css/footer.css" />
-    
     <link rel="stylesheet" href="/css/errorPage.css" />
 
+    <!-- CSS CONDITIONNELS COMME AVANT -->
     <% if (!user) { %>
-    <link rel="stylesheet" href="/css/auth.css" /> 
+      <!-- Pages publiques SANS navbar/footer -->
+      <link rel="stylesheet" href="/css/auth.css" /> 
     <% } else { %>
-    <link rel="stylesheet" href="/css/dashboard.css" />
+      <!-- Utilisateur connecté -->
+      <link rel="stylesheet" href="/css/dashboard.css" />
       
-    <% if (typeof currentFolder !== 'undefined' || title === 'Your Drive') { %>
-    <link rel="stylesheet" href="/css/folder.css" />
+      <% if (typeof currentFolder !== 'undefined' || title === 'Your Drive') { %>
+        <!-- Page dossier -->
+        <link rel="stylesheet" href="/css/folder.css" />
+      <% } %>
+      
+      <!-- TOUJOURS inclure share.css quand connecté (pour /shares) -->
+      <link rel="stylesheet" href="/css/share.css" />
     <% } %>
     
+    <!-- CSS pour pages PUBLIQUES (404, alreadyLoggedIn, shared-folder) -->
+    <% if (typeof isSharedAccess !== 'undefined' && isSharedAccess) { %>
+      <!-- Page dossier partagé PUBLIC -->
+      <link rel="stylesheet" href="/css/folder.css" />
+      <link rel="stylesheet" href="/css/shared-folder.css" />
+      <link rel="stylesheet" href="/css/share.css" />
     <% } %>
   </head>
 
   <body class="<%= user ? 'dashboard-body' : 'auth-body' %>">
-    <% if (user) { %> <%- include("partials/navbar") %> <% } %> <% if (!user) {
-    %> <%- body %> <% } else { %>
-    <main class="dashboard-main">
-      <div class="dashboard-container"><%- body %></div>
-    </main>
-    <% } %> <% if (user) { %> <%- include("partials/footer") %> <% } %> <% if
-    (user && (typeof currentFolder !== 'undefined' || title === 'Your Drive')) {
-    %>
-    <script src="/js/global.js"></script>
+    <% if (user) { %> 
+      <%- include("partials/navbar") %> 
+    <% } %> 
+    
+    <% if (!user) { %>
+      <!-- Pages publiques (login, register, home, 404, alreadyLoggedIn) -->
+      <%- body %>
+    <% } else if (typeof isSharedAccess !== 'undefined' && isSharedAccess) { %>
+      <!-- Page dossier partagé PUBLIC (sans navbar/footer) -->
+      <%- body %>
+    <% } else { %>
+      <!-- Pages utilisateur NORMALES -->
+      <main class="dashboard-main">
+        <div class="dashboard-container"><%- body %></div>
+      </main>
+    <% } %> 
+    
+    <% if (user) { %> 
+      <%- include("partials/footer") %> 
+    <% } %>
+    
+    <!-- Scripts universels -->
+    <script src="/js/messages.js"></script>
+    
+    <!-- Scripts conditionnels -->
+    <% if (user && (typeof currentFolder !== 'undefined' || title === 'Your Drive')) { %>
+      <script src="/js/global.js"></script>
+    <% } %>
+    
+    <% if (typeof currentFolder !== 'undefined' || title.includes('Share')) { %>
+      <script src="/js/share.js"></script>
     <% } %>
   </body>
 </html>
-<script src="/js/messages.js"></script>

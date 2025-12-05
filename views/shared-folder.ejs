@@ -1,0 +1,162 @@
+<div class="shared-container">
+  
+  <div class="shared-welcome">
+    <h1>Odin Drive</h1>
+    <p class="shared-welcome-subtitle">Secure file sharing</p>
+  </div>
+  
+  <div class="shared-content">
+    
+    <div class="shared-folder-header">
+      <div class="shared-folder-icon">
+        <img src="/icon/folder.png" alt="Folder">
+      </div>
+      <h2 class="shared-folder-name"><%= folder.name %></h2>
+    </div>
+    
+    <div class="shared-info-section">
+      <p class="shared-owner">
+        Shared by <strong><%= folder.user.email %></strong>
+      </p>
+      <div class="shared-expiry">
+        <div class="shared-expiry-icon">
+          <img src="/icon/clock.png" alt="Expires">
+        </div>
+        <span class="shared-expiry-text">Expires: <strong><%= new Date(shareLink.expiresAt).toLocaleDateString() %></strong></span>
+      </div>
+    </div>
+    
+    <div class="shared-stats">
+      <div class="shared-stat-card">
+        <div class="shared-stat-icon">
+          <img src="/icon/files.png" alt="Files">
+        </div>
+        <h3 class="shared-stat-number"><%= folder._count ? folder._count.files : folder.files.length %></h3>
+        <p class="shared-stat-label">Files</p>
+      </div>
+      
+      <div class="shared-stat-card">
+        <div class="shared-stat-icon">
+          <img src="/icon/folder.png" alt="Folders">
+        </div>
+        <h3 class="shared-stat-number"><%= folder._count ? folder._count.children : folder.children.length %></h3>
+        <p class="shared-stat-label">Subfolders</p>
+      </div>
+      
+      <div class="shared-stat-card">
+        <div class="shared-stat-icon">
+          <img src="/icon/calendar.png" alt="Calendar">
+        </div>
+        <h3 class="shared-stat-number"><%= new Date(folder.createdAt).toLocaleDateString() %></h3>
+        <p class="shared-stat-label">Created</p>
+      </div>
+    </div>
+    
+    <% if (folder.files.length > 0) { %>
+      <div class="shared-download-all">
+        <form action="/share/<%= shareToken %>/download-zip" method="POST">
+          <button type="submit" class="download-all-btn">
+            <div class="download-all-icon">
+              <img src="/icon/download.png" alt="Download">
+            </div>
+            Download All as ZIP
+          </button>
+        </form>
+      </div>
+    <% } %>
+    
+    <div class="shared-section">
+      <h3 class="shared-section-header">
+        <div class="shared-section-icon">
+          <img src="/icon/files.png" alt="Files">
+        </div>
+        Files in this folder
+      </h3>
+      
+      <% if (folder.files.length > 0) { %>
+        <div class="files-list shared-files-list">
+          <% folder.files.forEach(file => { %>
+            <div class="file-item shared-file-item">
+              <div class="file-icon">
+                <img src="<%= getFileIcon(file.mimetype) %>" alt="File icon" class="icon">
+              </div>
+              <div class="file-details">
+                <h3 class="file-name"><%= file.originalName %></h3>
+                <div class="file-meta">
+                  <span class="file-size"><%= formatFileSize(file.size) %></span>
+                  <span class="file-date">
+                    Uploaded <%= new Date(file.createdAt).toLocaleDateString() %>
+                  </span>
+                </div>
+              </div>
+              <div class="file-actions">
+                <a href="<%= baseUrl %>/share/<%= shareToken %>/download/<%= file.id %>" 
+                   class="file-action download shared-file-download" 
+                   title="Download">
+                  <div class="shared-download-icon">
+                    <img src="/icon/download.png" alt="Download">
+                  </div>
+                </a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="shared-empty-state">
+          <div class="shared-empty-icon">
+            <img src="/icon/files.png" alt="No files">
+          </div>
+          <h3 class="shared-empty-title">No files in this folder</h3>
+          <p class="shared-empty-text">The folder is currently empty</p>
+        </div>
+      <% } %>
+    </div>
+    
+    <% if (folder.children.length > 0) { %>
+      <div class="shared-section">
+        <h3 class="shared-section-header">
+          <div class="shared-section-icon">
+            <img src="/icon/folder.png" alt="Folders">
+          </div>
+          Subfolders
+        </h3>
+        
+        <div class="folders-grid shared-folders-grid">
+          <% folder.children.forEach(subfolder => { %>
+            <div class="folder-item shared-folder-item">
+              <div class="folder-icon">
+                <img src="/icon/folder.png" alt="Folder" class="folder-image-icon">
+              </div>
+              <h3 class="folder-name"><%= subfolder.name %></h3>
+              <div class="folder-meta">
+                <span><%= subfolder._count ? subfolder._count.files : 0 %> files</span>
+                <span><%= subfolder._count ? subfolder._count.children : 0 %> subfolders</span>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+    
+    <div class="expiry-warning">
+      <div class="expiry-warning-icon">
+        <img src="/icon/clock.png" alt="Warning">
+      </div>
+      <div class="expiry-warning-text">
+        <strong>This link will expire</strong> on 
+        <%= new Date(shareLink.expiresAt).toLocaleDateString() %>.
+        After this date, access will no longer be available.
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="shared-footer">
+    <p>Shared via Odin Drive • Secure file sharing</p>
+    <p class="shared-footer-link-container">
+      <a href="<%= baseUrl %>/" class="shared-footer-link">Create your own account</a> 
+      to share and manage files
+    </p>
+  </div>
+  
+</div>

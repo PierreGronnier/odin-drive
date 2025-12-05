@@ -15,6 +15,7 @@ model User {
   sessions Session[]
   files    File[]
   folders  Folder[] 
+  shareLinks ShareLink[]
 }
 
 model Session {
@@ -38,6 +39,7 @@ model Folder {
   parent    Folder?  @relation("FolderHierarchy", fields: [parentId], references: [id])
   children  Folder[] @relation("FolderHierarchy")
   createdAt DateTime @default(now())
+  shareLinks ShareLink[] 
 
   @@map("Folder")
 }
@@ -56,4 +58,17 @@ model File {
   createdAt   DateTime @default(now())
 
   @@map("File")
+}
+
+model ShareLink {
+  id        String   @id @default(uuid())
+  folderId  Int
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  token     String   @unique @default(uuid())
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  
+  @@map("ShareLink")
 }
