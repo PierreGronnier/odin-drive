@@ -68,6 +68,28 @@
     object-fit: contain;
 }
 
+.stat-content {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.stat-number {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.stat-card:nth-child(3) .stat-number {
+    font-size: 1.4rem;
+}
+
 .button-icon {
     width: 18px; 
     height: 18px;

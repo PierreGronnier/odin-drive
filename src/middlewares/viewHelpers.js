@@ -21,7 +21,7 @@ function viewHelpers(req, res, next) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
-
+  res.locals.isSharedAccess = false;
   next();
 }
 

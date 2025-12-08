@@ -59,7 +59,7 @@
             <div class="download-all-icon">
               <img src="/icon/download.png" alt="Download">
             </div>
-            Download All as ZIP
+            Download All as ZIP (<%= folder.files.length %> files)
           </button>
         </form>
       </div>
@@ -74,30 +74,28 @@
       </h3>
       
       <% if (folder.files.length > 0) { %>
-        <div class="files-list shared-files-list">
+        <div class="shared-files-list">
           <% folder.files.forEach(file => { %>
-            <div class="file-item shared-file-item">
-              <div class="file-icon">
+            <div class="shared-file-item">
+              <div class="shared-file-icon">
                 <img src="<%= getFileIcon(file.mimetype) %>" alt="File icon" class="icon">
               </div>
-              <div class="file-details">
-                <h3 class="file-name"><%= file.originalName %></h3>
-                <div class="file-meta">
-                  <span class="file-size"><%= formatFileSize(file.size) %></span>
-                  <span class="file-date">
+              <div class="shared-file-details">
+                <h3 class="shared-file-name"><%= file.originalName %></h3>
+                <div class="shared-file-meta">
+                  <span class="shared-file-size"><%= formatFileSize(file.size) %></span>
+                  <span class="shared-file-date">
                     Uploaded <%= new Date(file.createdAt).toLocaleDateString() %>
                   </span>
                 </div>
               </div>
-              <div class="file-actions">
-                <a href="<%= baseUrl %>/share/<%= shareToken %>/download/<%= file.id %>" 
-                   class="file-action download shared-file-download" 
-                   title="Download">
-                  <div class="shared-download-icon">
-                    <img src="/icon/download.png" alt="Download">
-                  </div>
-                </a>
-              </div>
+              <a href="<%= baseUrl %>/share/<%= shareToken %>/download/<%= file.id %>" 
+                 class="shared-file-download" 
+                 title="Download">
+                <div class="shared-download-icon">
+                  <img src="/icon/download.png" alt="Download">
+                </div>
+              </a>
             </div>
           <% }) %>
         </div>
@@ -121,18 +119,18 @@
           Subfolders
         </h3>
         
-        <div class="folders-grid shared-folders-grid">
+        <div class="shared-folders-grid">
           <% folder.children.forEach(subfolder => { %>
-            <div class="folder-item shared-folder-item">
-              <div class="folder-icon">
-                <img src="/icon/folder.png" alt="Folder" class="folder-image-icon">
+            <a href="/share/<%= shareToken %>/folder/<%= subfolder.id %>" class="shared-folder-item">
+              <div class="shared-folder-icon-small">
+                <img src="/icon/folder.png" alt="Folder">
               </div>
-              <h3 class="folder-name"><%= subfolder.name %></h3>
-              <div class="folder-meta">
+              <h3 class="shared-folder-name"><%= subfolder.name %></h3>
+              <div class="shared-folder-meta">
                 <span><%= subfolder._count ? subfolder._count.files : 0 %> files</span>
                 <span><%= subfolder._count ? subfolder._count.children : 0 %> subfolders</span>
               </div>
-            </div>
+            </a>
           <% }) %>
         </div>
       </div>

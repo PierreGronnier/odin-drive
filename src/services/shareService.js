@@ -14,17 +14,16 @@ class ShareService {
       include: {
         folder: {
           include: {
-            files: {
-              select: {
-                id: true,
-                originalName: true,
-                size: true,
-                mimetype: true,
-                createdAt: true
-              }
-            },
+            files: true,
             children: {
               include: {
+                files: true,
+                children: {
+                  include: {
+                    files: true,
+                    children: true
+                  }
+                },
                 _count: {
                   select: { files: true, children: true }
                 }
@@ -45,6 +44,13 @@ class ShareService {
             files: true,
             children: {
               include: {
+                files: true,
+                children: {
+                  include: {
+                    files: true,
+                    children: true
+                  }
+                },
                 _count: {
                   select: { files: true, children: true }
                 }
@@ -100,7 +106,14 @@ class ShareService {
     const file = await prisma.file.findFirst({
       where: {
         id: parseInt(fileId),
-        folderId: shareLink.folderId
+        OR: [
+          { folderId: shareLink.folderId },
+          { folder: { parentId: shareLink.folderId } },
+          { folder: { parent: { parentId: shareLink.folderId } } }
+        ]
+      },
+      include: {
+        folder: true
       }
     });
     

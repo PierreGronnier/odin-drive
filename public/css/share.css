@@ -27,6 +27,11 @@
   margin-bottom: 15px;
 }
 
+.empty-image-icon {
+  width: 120px;
+  height: 120px;
+}
+
 .share-header-icon {
   width: 40px;
   height: 40px;
@@ -105,7 +110,6 @@
 }
 
 .share-actions {
-  display: flex;
   gap: 10px;
   margin-top: 25px;
   flex-wrap: wrap;
@@ -122,11 +126,27 @@
   justify-content: center;
   min-width: 80px;
   box-sizing: border-box;
+  line-height: 1;
+}
+
+.share-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .share-action-form {
   display: inline-flex;
   height: 40px;
+  align-items: center;
+}
+
+.share-action-form .btn {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-action-icon {

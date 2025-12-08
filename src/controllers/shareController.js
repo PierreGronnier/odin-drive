@@ -1,5 +1,7 @@
 const ShareService = require('../services/shareService');
-const ERRORS = require('../constants/errors');
+const path = require('path');
+const fs = require('fs');
+const prisma = require('../prismaClient');
 
 class ShareController {
   static async createShareLink(req, res) {
@@ -38,7 +40,7 @@ class ShareController {
         title: `Shared: ${req.sharedFolder.name}`,
         folder: req.sharedFolder,
         shareToken: token,
-        shareLink: req.shareLink, // ← AJOUTÉ ICI
+        shareLink: req.shareLink,
         isSharedAccess: true,
         baseUrl: `${req.protocol}://${req.get('host')}`
       });
@@ -51,13 +53,66 @@ class ShareController {
     }
   }
   
+  static async viewSharedSubfolder(req, res) {
+    try {
+      const { token, folderId } = req.params;
+      
+      const subfolder = await prisma.folder.findFirst({
+        where: {
+          id: parseInt(folderId),
+          OR: [
+            { id: req.sharedFolder.id },
+            { parentId: req.sharedFolder.id },
+            { parent: { parentId: req.sharedFolder.id } }
+          ]
+        },
+        include: {
+          files: true,
+          children: {
+            include: {
+              _count: {
+                select: { files: true, children: true }
+              }
+            }
+          },
+          user: {
+            select: { email: true }
+          },
+          _count: {
+            select: { files: true, children: true }
+          }
+        }
+      });
+      
+      if (!subfolder) {
+        return res.status(404).render('404', {
+          title: 'Folder Not Found',
+          message: 'This folder is not available in this shared link.'
+        });
+      }
+      
+      res.render('shared-folder', {
+        title: `Shared: ${subfolder.name}`,
+        folder: subfolder,
+        shareToken: token,
+        shareLink: req.shareLink,
+        isSharedAccess: true,
+        baseUrl: `${req.protocol}://${req.get('host')}`
+      });
+      
+    } catch (error) {
+      console.error('[SHARE_SUBFOLDER] Error:', error);
+      res.status(500).send('Could not load subfolder');
+    }
+  }
+  
   static async downloadSharedFile(req, res) {
     try {
       const { token, fileId } = req.params;
       
       const file = await ShareService.getSharedFile(fileId, token);
       
-      if (!file || !require('fs').existsSync(file.path)) {
+      if (!file || !fs.existsSync(file.path)) {
         return res.status(404).render('404', {
           title: 'File Not Found',
           message: 'The requested file is not available.'
@@ -68,6 +123,80 @@ class ShareController {
     } catch (error) {
       console.error('[SHARE_DOWNLOAD] Error:', error);
       res.status(500).send('Download failed');
+    }
+  }
+  
+  static async downloadSharedFolderZip(req, res) {
+    try {
+      const archiver = require('archiver');
+      const { token } = req.params;
+      const folder = req.sharedFolder;
+      
+      const zipFileName = `${folder.name.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}.zip`;
+      const zipFilePath = path.join(__dirname, '../../temp', zipFileName);
+      
+      const tempDir = path.join(__dirname, '../../temp');
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      const output = fs.createWriteStream(zipFilePath);
+      const archive = archiver('zip', {
+        zlib: { level: 9 }
+      });
+      
+      archive.on('error', (err) => {
+        console.error('[ZIP] Archive error:', err);
+        res.status(500).send('Failed to create ZIP file');
+      });
+      
+      output.on('close', () => {
+        console.log(`[ZIP] Created: ${archive.pointer()} bytes`);
+        res.download(zipFilePath, `${folder.name}.zip`, (err) => {
+          if (fs.existsSync(zipFilePath)) {
+            fs.unlinkSync(zipFilePath);
+          }
+        });
+      });
+      
+      archive.pipe(output);
+      
+      const addFolderToArchive = async (folderId, currentPath = '') => {
+        const currentFolder = await prisma.folder.findUnique({
+          where: { id: folderId },
+          include: {
+            files: true,
+            children: true
+          }
+        });
+        
+        for (const file of currentFolder.files) {
+          const filePath = path.join(__dirname, '../../uploads', file.filename);
+          if (fs.existsSync(filePath)) {
+            const zipPath = currentPath ? 
+              path.join(currentPath, file.originalName) : 
+              file.originalName;
+            
+            archive.file(filePath, { name: zipPath });
+          }
+        }
+        
+        for (const child of currentFolder.children) {
+          const childPath = currentPath ? 
+            path.join(currentPath, child.name) : 
+            child.name;
+          
+          await addFolderToArchive(child.id, childPath);
+        }
+      };
+      
+      await addFolderToArchive(folder.id, folder.name);
+      
+      archive.finalize();
+      
+    } catch (error) {
+      console.error('[ZIP_DOWNLOAD] Error:', error);
+      res.status(500).send('Failed to create ZIP file. Please install archiver: npm install archiver');
     }
   }
   

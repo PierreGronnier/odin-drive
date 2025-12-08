@@ -1,4 +1,3 @@
-/* ===== PUBLIC SHARED FOLDER - STYLES FONCTIONNELS ===== */
 .shared-layout {
   background: var(--bg-main);
   min-height: 100vh;
@@ -130,9 +129,10 @@
 }
 
 .shared-stat-number {
-  font-size: 2.8rem;
+  font-size: 1.8rem;
   margin: 10px 0;
   color: var(--text-main);
+  line-height: 1.1;
 }
 
 .shared-stat-label {
@@ -224,6 +224,52 @@
   border-color: var(--primary);
 }
 
+.shared-file-icon {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shared-file-icon img.icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.shared-file-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.shared-file-name {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--text-main);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shared-file-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.shared-file-size {
+  font-weight: 500;
+}
+
+.shared-file-date {
+  opacity: 0.5;
+}
+
 .shared-file-download {
   width: 40px;
   height: 40px;
@@ -235,28 +281,23 @@
   border: 1px solid var(--border);
   transition: all 0.2s ease;
   text-decoration: none;
+  margin-left: auto;
 }
 
 .shared-file-download:hover {
-  background: var(--primary-light);
+  background: var(--primary);
   border-color: var(--primary);
-  transform: translateY(-2px);
 }
 
 .shared-download-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .shared-download-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: brightness(0.8);
-}
-
-.shared-file-download:hover .shared-download-icon img {
-  filter: brightness(1);
 }
 
 .shared-empty-state {
@@ -295,17 +336,55 @@
 
 .shared-folders-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .shared-folder-item {
   background: var(--bg-white);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 20px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  color: inherit;
   text-align: center;
-  cursor: default;
+}
+
+.shared-folder-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.shared-folder-icon-small {
+  margin: 0 auto 12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shared-folder-icon-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shared-folder-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.shared-folder-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .expiry-warning {

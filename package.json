@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "archiver": "^7.0.1",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",

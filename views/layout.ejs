@@ -3,69 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= title %></title>
-
     <link rel="icon" type="image/png" href="/icon/cloud.png"> 
 
-    <!-- CSS UNIVERSELS -->
+    <!-- CSS TOUJOURS CHARGÉS -->
     <link rel="stylesheet" href="/css/layout.css" />
-    <link rel="stylesheet" href="/css/navbar.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-    <link rel="stylesheet" href="/css/errorPage.css" />
 
-    <!-- CSS CONDITIONNELS COMME AVANT -->
-    <% if (!user) { %>
-      <!-- Pages publiques SANS navbar/footer -->
-      <link rel="stylesheet" href="/css/auth.css" /> 
-    <% } else { %>
-      <!-- Utilisateur connecté -->
+    <!-- CSS SELON PAGE -->
+    <% if (typeof isSharedAccess !== 'undefined' && isSharedAccess) { %>
+      <!-- PAGE PARTAGÉE PUBLIQUE -->
+      <link rel="stylesheet" href="/css/shared-folder.css" />
+      <link rel="stylesheet" href="/css/folder.css" />
+    <% } else if (user) { %>
+      <!-- UTILISATEUR CONNECTÉ -->
+      <link rel="stylesheet" href="/css/navbar.css" />
+      <link rel="stylesheet" href="/css/footer.css" />
       <link rel="stylesheet" href="/css/dashboard.css" />
-      
-      <% if (typeof currentFolder !== 'undefined' || title === 'Your Drive') { %>
-        <!-- Page dossier -->
+      <link rel="stylesheet" href="/css/share.css" />
+      <% if (typeof currentFolder !== 'undefined') { %>
         <link rel="stylesheet" href="/css/folder.css" />
       <% } %>
-      
-      <!-- TOUJOURS inclure share.css quand connecté (pour /shares) -->
-      <link rel="stylesheet" href="/css/share.css" />
-    <% } %>
-    
-    <!-- CSS pour pages PUBLIQUES (404, alreadyLoggedIn, shared-folder) -->
-    <% if (typeof isSharedAccess !== 'undefined' && isSharedAccess) { %>
-      <!-- Page dossier partagé PUBLIC -->
-      <link rel="stylesheet" href="/css/folder.css" />
-      <link rel="stylesheet" href="/css/shared-folder.css" />
-      <link rel="stylesheet" href="/css/share.css" />
+    <% } else { %>
+      <!-- PAGES PUBLIQUES (login, register, home, 404, alreadyLoggedIn) -->
+      <link rel="stylesheet" href="/css/auth.css" />
     <% } %>
   </head>
 
-  <body class="<%= user ? 'dashboard-body' : 'auth-body' %>">
-    <% if (user) { %> 
+  <body class="<%= user ? 'dashboard-body' : (isSharedAccess ? 'shared-layout' : 'auth-body') %>">
+    <% if (user && !isSharedAccess) { %> 
       <%- include("partials/navbar") %> 
     <% } %> 
     
-    <% if (!user) { %>
-      <!-- Pages publiques (login, register, home, 404, alreadyLoggedIn) -->
-      <%- body %>
-    <% } else if (typeof isSharedAccess !== 'undefined' && isSharedAccess) { %>
-      <!-- Page dossier partagé PUBLIC (sans navbar/footer) -->
-      <%- body %>
-    <% } else { %>
-      <!-- Pages utilisateur NORMALES -->
+    <% if (isSharedAccess) { %>
+      <!-- PAGE PARTAGÉE -->
+      <div class="shared-container">
+        <%- body %>
+      </div>
+    <% } else if (user) { %>
+      <!-- UTILISATEUR CONNECTÉ -->
       <main class="dashboard-main">
         <div class="dashboard-container"><%- body %></div>
       </main>
+    <% } else { %>
+      <!-- PUBLIC NON-CONNECTÉ - TOUTES LES PAGES DANS CARDS -->
+      <div class="auth-wrapper">
+        <div class="auth-box">
+          <%- body %>
+        </div>
+      </div>
     <% } %> 
     
-    <% if (user) { %> 
+    <% if (user && !isSharedAccess) { %> 
       <%- include("partials/footer") %> 
     <% } %>
     
-    <!-- Scripts universels -->
     <script src="/js/messages.js"></script>
     
-    <!-- Scripts conditionnels -->
-    <% if (user && (typeof currentFolder !== 'undefined' || title === 'Your Drive')) { %>
-      <script src="/js/global.js"></script>
+    <% if (user && !isSharedAccess) { %>
+      <% if (typeof currentFolder !== 'undefined' || title === 'Your Drive') { %>
+        <script src="/js/global.js"></script>
+      <% } %>
     <% } %>
     
     <% if (typeof currentFolder !== 'undefined' || title.includes('Share')) { %>
