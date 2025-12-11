@@ -5,13 +5,16 @@
       <%= files.length %> file<%= files.length !== 1 ? 's' : '' %>
     </span>
   </div>
-
   <% if (files.length > 0) { %>
   <div class="files-list">
     <% files.forEach(file => { %>
     <div class="file-item">
       <div class="file-icon">
-        <img src="<%= getFileIcon(file.mimetype) %>" alt="Icône de fichier" class="icon">
+        <img
+          src="<%= getFileIcon(file.mimetype) %>"
+          alt="Icône de fichier"
+          class="icon-md"
+        />
       </div>
       <div class="file-details">
         <h3 class="file-name"><%= file.originalName %></h3>
@@ -22,18 +25,28 @@
           </span>
           <% if (file.folder) { %>
           <span class="file-folder">
-            in <a href="/folder/<%= file.folder.id %>"><%= file.folder.name %></a>
+            in
+            <a href="/folder/<%= file.folder.id %>"><%= file.folder.name %></a>
           </span>
           <% } %>
         </div>
       </div>
       <div class="file-actions">
-        <a href="/download/<%= file.id %>" class="file-action download" title="Download">
-          <i class="action-icon">↓</i>
+        <a
+          href="/download/<%= file.id %>"
+          class="file-action download"
+          title="Download"
+        >
+          <i class="icon-sm">↓</i>
         </a>
         <form action="/delete/<%= file.id %>" method="POST" class="delete-form">
-          <button type="submit" class="file-action delete" title="Delete" onclick="return confirm('Delete this file?')">
-            <i class="action-icon">×</i>
+          <button
+            type="submit"
+            class="file-action delete"
+            title="Delete"
+            onclick="return confirm('Delete this file?')"
+          >
+            <i class="icon-sm">×</i>
           </button>
         </form>
       </div>
@@ -43,8 +56,8 @@
   <% } else { %>
   <div class="empty-state">
     <div class="empty-icon">
-        <img src="/icon/files.png" alt="empty icon" class="empty-image-icon-small">
-    </div> 
+      <img src="/icon/files.png" alt="empty icon" class="icon-lg" />
+    </div>
     <h3>No recent files</h3>
     <p>Upload files to see them here</p>
   </div>

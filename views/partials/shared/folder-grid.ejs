@@ -2,7 +2,7 @@
   <% folders.forEach(folder => { %>
   <div class="folder-item" onclick="openFolder(<%= folder.id %>)">
     <div class="folder-icon">
-      <img src="/icon/folder.png" alt="Folder" class="folder-image-icon">
+      <img src="/icon/folder.png" alt="Folder" class="icon-md">
     </div>
     <h3 class="folder-name"><%= folder.name %></h3>
     <div class="folder-meta">
@@ -11,10 +11,10 @@
     </div>
     <div class="folder-actions">
       <button class="folder-action edit" onclick="event.stopPropagation(); openEditFolderModal(<%= folder.id %>, '<%= folder.name.replace(/'/g, "\\'") %>')" title="Edit folder">
-        <img src="/icon/edit.png" alt="Edit" class="folder-action-image-icon">
+        <img src="/icon/edit.png" alt="Edit" class="icon-sm">
       </button>
       <button class="folder-action delete" onclick="event.stopPropagation(); openDeleteFolderModal(<%= folder.id %>, '<%= folder.name.replace(/'/g, "\\'") %>')" title="Delete folder">
-        <img src="/icon/delete.png" alt="Delete" class="folder-action-image-icon">
+        <img src="/icon/delete.png" alt="Delete" class="icon-sm">
       </button>
     </div>
   </div>

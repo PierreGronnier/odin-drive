@@ -1,112 +1,113 @@
 <div class="dashboard-content">
   <%- include('partials/shared/messages') %>
-  
+
   <div class="dashboard-header">
     <h1 class="dashboard-title">
       <div class="share-icon dashboard-title-icon">
-        <img src="/icon/share.png" alt="Share">
+        <img src="/icon/share.png" alt="Share" class="icon-md" />
       </div>
       My Share Links
     </h1>
     <p class="dashboard-subtitle">Manage your shared folders and links</p>
   </div>
-  
+
   <div class="shares-container">
-    
     <% if (shares && shares.length > 0) { %>
-      <div class="shares-list">
-        <% shares.forEach(share => { %>
-          <div class="share-item">
-            
-            <div class="share-header">
-              <div class="share-header-icon">
-                <img src="/icon/folder.png" alt="Folder">
-              </div>
-              <div>
-                <h3 class="share-title"><%= share.folder.name %></h3>
-                <p class="share-meta">
-                  Created <%= new Date(share.createdAt).toLocaleDateString() %>
-                </p>
-              </div>
-            </div>
-            
-            <div class="share-link-container">
-              <p class="share-link-label">Share Link:</p>
-              <div class="share-link-code">
-                <%= baseUrl %>/share/<%= share.token %>
-              </div>
-            </div>
-            
-            <div class="share-info-grid">
-              <div class="share-info-item">
-                <div class="share-info-icon">
-                  <img src="/icon/clock.png" alt="Expires">
-                </div>
-                <span class="share-info-text">
-                  Expires: <strong><%= new Date(share.expiresAt).toLocaleDateString() %></strong>
-                </span>
-              </div>
-              
-              <div class="share-info-item">
-                <div class="share-info-icon">
-                  <img src="/icon/files.png" alt="Files">
-                </div>
-                <span class="share-info-text">
-                  <%= share.folder._count?.files || 0 %> files
-                </span>
-              </div>
-            </div>
-            
-            <div class="share-actions">
-              <a href="<%= baseUrl %>/share/<%= share.token %>" 
-                 target="_blank" 
-                 class="btn btn-primary share-action-btn">
-                <div class="share-icon share-action-icon">
-                  <img src="/icon/eye.png" alt="View">
-                </div>
-                View
-              </a>
-              
-              <button class="btn btn-secondary share-action-btn" 
-                      data-copy="<%= baseUrl %>/share/<%= share.token %>">
-                <div class="share-icon share-action-icon">
-                  <img src="/icon/copy.png" alt="Copy">
-                </div>
-                Copy
-              </button>
-              
-              <form action="/shares/<%= share.id %>?_method=DELETE" 
-                    method="POST" 
-                    class="share-action-form">
-                <button type="submit" class="btn btn-danger share-action-btn">
-                  <div class="share-icon share-action-icon">
-                    <img src="/icon/delete.png" alt="Revoke">
-                  </div>
-                  Revoke
-                </button>
-              </form>
-            </div>
-            
+    <div class="shares-list">
+      <% shares.forEach(share => { %>
+      <div class="share-item">
+        <div class="share-header">
+          <div class="share-header-icon">
+            <img src="/icon/folder.png" alt="Folder" class="icon-md" />
           </div>
-        <% }) %>
-      </div>
-      
-    <% } else { %>
-      
-      <div class="empty-state shares-empty-state">
-        <div class="empty-icon">
-          <img src="/icon/share.png" alt="No shares" class="empty-image-icon">
+          <div>
+            <h3 class="share-title"><%= share.folder.name %></h3>
+            <p class="share-meta">
+              Created <%= new Date(share.createdAt).toLocaleDateString() %>
+            </p>
+          </div>
         </div>
-        <h3>No active share links</h3>
-        <p class="empty-state-text">
-          You haven't created any share links yet. Go to a folder and create your first share link.
-        </p>
-        <a href="/dashboard" class="btn btn-primary">
-          Go to Dashboard
-        </a>
+
+        <div class="share-link-container">
+          <p class="share-link-label">Share Link:</p>
+          <div class="share-link-code">
+            <%= baseUrl %>/share/<%= share.token %>
+          </div>
+        </div>
+
+        <div class="share-info-grid">
+          <div class="share-info-item">
+            <div class="share-info-icon">
+              <img src="/icon/clock.png" alt="Expires" class="icon-sm" />
+            </div>
+            <span class="share-info-text">
+              Expires:
+              <strong
+                ><%= new Date(share.expiresAt).toLocaleDateString() %></strong
+              >
+            </span>
+          </div>
+
+          <div class="share-info-item">
+            <div class="share-info-icon">
+              <img src="/icon/files.png" alt="Files" class="icon-sm" />
+            </div>
+            <span class="share-info-text">
+              <%= share.folder._count?.files || 0 %> files
+            </span>
+          </div>
+        </div>
+
+        <div class="share-actions">
+          <a
+            href="<%= baseUrl %>/share/<%= share.token %>"
+            target="_blank"
+            class="btn btn-primary share-action-btn"
+          >
+            <div class="share-icon share-action-icon">
+              <img src="/icon/eye.png" alt="View" class="icon-sm" />
+            </div>
+            View
+          </a>
+
+          <button
+            class="btn btn-secondary share-action-btn"
+            data-copy="<%= baseUrl %>/share/<%= share.token %>"
+          >
+            <div class="share-icon share-action-icon">
+              <img src="/icon/copy.png" alt="Copy" class="icon-sm" />
+            </div>
+            Copy
+          </button>
+
+          <form
+            action="/shares/<%= share.id %>?_method=DELETE"
+            method="POST"
+            class="share-action-form"
+          >
+            <button type="submit" class="btn btn-danger share-action-btn">
+              <div class="share-icon share-action-icon">
+                <img src="/icon/delete.png" alt="Revoke" class="icon-sm" />
+              </div>
+              Revoke
+            </button>
+          </form>
+        </div>
       </div>
-      
+      <% }) %>
+    </div>
+    <% } else { %>
+    <div class="empty-state shares-empty-state">
+      <div class="empty-icon">
+        <img src="/icon/share.png" alt="No shares" class="icon-lg" />
+      </div>
+      <h3>No active share links</h3>
+      <p class="empty-state-text">
+        You haven't created any share links yet. Go to a folder and create your
+        first share link.
+      </p>
+      <a href="/dashboard" class="btn btn-primary"> Go to Dashboard </a>
+    </div>
     <% } %>
-    
   </div>
 </div>

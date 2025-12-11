@@ -1,0 +1,432 @@
+/* ==========================================
+   DOSSIERS
+   ========================================== */
+.folder-item {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+}
+
+.folder-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.folder-icon {
+  margin: 0 auto var(--spacing-sm);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folder-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.folder-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-xs);
+  word-break: break-word;
+}
+
+.folder-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.folder-actions {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.folder-item:hover .folder-actions {
+  opacity: 1;
+}
+
+.folder-action {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.folder-action img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.folder-action.edit:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.folder-action.edit:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.folder-action.delete:hover {
+  background: var(--error-text);
+  border-color: var(--error-text);
+}
+
+.folder-action.delete:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* ==========================================
+   HEADER DE DOSSIER
+   ========================================== */
+.folder-header {
+  margin-top: var(--spacing-3xl);
+  background: var(--bg-white);
+  padding: var(--spacing-2xl) var(--spacing-3xl);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-3xl);
+  text-align: center;
+}
+
+.folder-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 3px solid var(--primary);
+  margin: 0 auto var(--spacing-md);
+  width: fit-content;
+}
+
+.folder-title-icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folder-title-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ==========================================
+   FICHIERS
+   ========================================== */
+.files-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-icon {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.file-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--text-main);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-meta {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.file-size {
+  font-weight: 500;
+}
+
+.file-date {
+  opacity: 0.7;
+}
+
+.file-folder a {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.file-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-left: auto;
+}
+
+.file-action {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0.7;
+  width: 32px;
+  height: 32px;
+}
+
+.file-action:hover {
+  background: var(--bg-light);
+  opacity: 1;
+}
+
+.file-action.download:hover {
+  color: var(--primary);
+}
+
+.file-action.delete:hover {
+  color: var(--error-text);
+}
+
+.delete-form {
+  margin: 0;
+  display: inline-flex;
+}
+
+/* ==========================================
+   UPLOAD SECTION
+   ========================================== */
+.upload-section {
+  background: var(--bg-white);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-3xl);
+  border: 1px solid var(--border);
+}
+
+.file-input-wrapper {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.file-input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.file-input-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: var(--bg-white);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-height: 200px;
+}
+
+.file-input-label:hover,
+.file-input-label.dragover {
+  border-color: var(--primary);
+  background: var(--bg-light);
+}
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.7;
+}
+
+.upload-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.upload-text h3 {
+  font-size: 1.2rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-main);
+}
+
+.upload-text p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.file-preview {
+  width: 100%;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--bg-white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.preview-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-info h4 {
+  margin: 0 0 5px 0;
+  color: var(--text-main);
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-info p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.remove-file {
+  background: var(--error-text);
+  color: var(--text-light);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.remove-file:hover {
+  background: #c53030;
+}
+
+.file-message {
+  margin: var(--spacing-md) 0;
+}
+
+.upload-button {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+  .folder-header {
+    padding: var(--spacing-lg);
+  }
+  
+  .folder-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .file-meta {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .file-actions {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,237 @@
+/* ==========================================
+   CONTENEURS PRINCIPAUX
+   ========================================== */
+
+/* Conteneur pour pages d'authentification */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-dark);
+  padding: var(--spacing-lg);
+}
+
+.auth-box {
+  background: var(--bg-white);
+  padding: var(--spacing-3xl);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.auth-box h1 {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  color: var(--primary);
+}
+
+.auth-box p {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: var(--spacing-lg);
+}
+
+.auth-box .home-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.auth-box .home-buttons .btn {
+  flex: 1;
+}
+
+/* Conteneur dashboard (utilisateur connecté) */
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+}
+
+.dashboard-main {
+  flex: 1;
+  padding-top: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* Header du dashboard */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+  padding: var(--spacing-2xl);
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-main);
+}
+
+.dashboard-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-main);
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.user-email {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Conteneur pages partagées */
+.shared-page {
+  min-height: 100vh;
+  background: var(--bg-main);
+  padding: var(--spacing-lg);
+}
+
+.shared-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.shared-welcome {
+  text-align: center;
+  margin: var(--spacing-3xl) 0;
+}
+
+.shared-welcome h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.shared-welcome-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.shared-content {
+  background: var(--bg-white);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-3xl);
+  margin-bottom: var(--spacing-3xl);
+  border: 1px solid var(--border);
+}
+
+/* ==========================================
+   SECTIONS
+   ========================================== */
+.section {
+  margin-bottom: var(--spacing-3xl);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: 0;
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ==========================================
+   CARDS & BOXES
+   ========================================== */
+.card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-section {
+  background: var(--bg-white);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-3xl);
+  border: 1px solid var(--border);
+}
+
+/* ==========================================
+   GRILLES
+   ========================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.folders-grid,
+.shared-folders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+  .auth-box {
+    padding: var(--spacing-xl);
+  }
+  
+  .dashboard-header {
+    padding: var(--spacing-lg);
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+  }
+  
+  .shared-content {
+    padding: var(--spacing-xl);
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+}

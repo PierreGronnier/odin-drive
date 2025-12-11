@@ -1,27 +1,25 @@
 <div class="stats-grid">
   <div class="stat-card">
     <div class="stat-icon">
-      <img src="/icon/folder.png" alt="Folders" class="stat-image-icon">
+      <img src="/icon/folder.png" alt="Folders" class="icon-md" />
     </div>
     <div class="stat-content">
       <h3 class="stat-number"><%= totalFolders || 0 %></h3>
       <p class="stat-label">Total Folders</p>
     </div>
   </div>
-
   <div class="stat-card">
     <div class="stat-icon">
-      <img src="/icon/files.png" alt="Files" class="stat-image-icon">
+      <img src="/icon/files.png" alt="Files" class="icon-md" />
     </div>
     <div class="stat-content">
       <h3 class="stat-number"><%= totalFiles || 0 %></h3>
       <p class="stat-label">Total Files</p>
     </div>
   </div>
-
   <div class="stat-card">
     <div class="stat-icon">
-      <img src="/icon/disk.png" alt="Storage" class="stat-image-icon">
+      <img src="/icon/disk.png" alt="Storage" class="icon-md" />
     </div>
     <div class="stat-content">
       <h3 class="stat-number"><%= formatFileSize(totalSize || 0) %></h3>
