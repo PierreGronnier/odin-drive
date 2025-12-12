@@ -29,35 +29,35 @@
       </div>
     </div>
 
-    <div class="shared-stats">
-      <div class="shared-stat-card">
-        <div class="shared-stat-icon">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
           <img src="/icon/files.png" alt="Files" class="icon-md" />
         </div>
-        <h3 class="shared-stat-number">
+        <h3 class="stat-number">
           <%= folder._count ? folder._count.files : folder.files.length %>
         </h3>
-        <p class="shared-stat-label">Files</p>
+        <p class="stat-label">Files</p>
       </div>
 
-      <div class="shared-stat-card">
-        <div class="shared-stat-icon">
+      <div class="stat-card">
+        <div class="stat-icon">
           <img src="/icon/folder.png" alt="Folders" class="icon-md" />
         </div>
-        <h3 class="shared-stat-number">
+        <h3 class="stat-number">
           <%= folder._count ? folder._count.children : folder.children.length %>
         </h3>
-        <p class="shared-stat-label">Subfolders</p>
+        <p class="stat-label">Subfolders</p>
       </div>
 
-      <div class="shared-stat-card">
-        <div class="shared-stat-icon">
+      <div class="stat-card">
+        <div class="stat-icon">
           <img src="/icon/calendar.png" alt="Calendar" class="icon-md" />
         </div>
-        <h3 class="shared-stat-number">
+        <h3 class="stat-number">
           <%= new Date(folder.createdAt).toLocaleDateString() %>
         </h3>
-        <p class="shared-stat-label">Created</p>
+        <p class="stat-label">Created</p>
       </div>
     </div>
 

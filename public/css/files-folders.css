@@ -1,5 +1,5 @@
 /* ==========================================
-   DOSSIERS
+   DOSSIERS - DANS UNE CARD POUR SHARED
    ========================================== */
 .folder-item {
   background: var(--bg-white);
@@ -20,8 +20,8 @@
 
 .folder-icon {
   margin: 0 auto var(--spacing-sm);
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,8 +77,8 @@
 }
 
 .folder-action img {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
 }
 
@@ -128,9 +128,9 @@
 }
 
 .folder-title-icon {
-  width: 50px;
-  height: 50px;
-  min-width: 50px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,15 +143,17 @@
 }
 
 /* ==========================================
-   FICHIERS
+   FICHIERS - EN LIGNES POUR SHARED
    ========================================== */
-.files-list {
+.files-list,
+.shared-files-list {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.file-item {
+.file-item,
+.shared-file-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
@@ -162,32 +164,37 @@
   transition: all 0.3s ease;
 }
 
-.file-item:hover {
+.file-item:hover,
+.shared-file-item:hover {
   border-color: var(--primary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.file-icon {
-  width: 45px;
-  height: 45px;
-  min-width: 45px;
+.file-icon,
+.shared-file-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.file-icon img {
+.file-icon img,
+.shared-file-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.file-details {
+.file-details,
+.shared-file-details {
   flex: 1;
   min-width: 0;
 }
 
-.file-name {
+.file-name,
+.shared-file-name {
   font-size: 1rem;
   margin-bottom: 6px;
   color: var(--text-main);
@@ -197,7 +204,8 @@
   text-overflow: ellipsis;
 }
 
-.file-meta {
+.file-meta,
+.shared-file-meta {
   display: flex;
   gap: var(--spacing-md);
   font-size: 0.875rem;
@@ -205,11 +213,13 @@
   flex-wrap: wrap;
 }
 
-.file-size {
+.file-size,
+.shared-file-size {
   font-weight: 500;
 }
 
-.file-date {
+.file-date,
+.shared-file-date {
   opacity: 0.7;
 }
 
@@ -218,7 +228,8 @@
   font-weight: 500;
 }
 
-.file-actions {
+.file-actions,
+.shared-file-download {
   display: flex;
   gap: var(--spacing-xs);
   margin-left: auto;
@@ -259,13 +270,96 @@
   display: inline-flex;
 }
 
+.shared-file-download {
+  background: var(--primary);
+  color: var(--text-light);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.shared-file-download:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.shared-download-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shared-download-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
 /* ==========================================
-   UPLOAD SECTION
+   SHARED FOLDERS GRID - DANS CARDS
    ========================================== */
+.shared-folder-item {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+.shared-folder-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.shared-folder-icon-small {
+  margin: 0 auto var(--spacing-sm);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shared-folder-icon-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shared-folder-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-xs);
+  word-break: break-word;
+}
+
+.shared-folder-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 .upload-section {
   background: var(--bg-white);
   padding: var(--spacing-2xl);
   border-radius: var(--radius-lg);
+  margin-top: var(--spacing-3xl);
   margin-bottom: var(--spacing-3xl);
   border: 1px solid var(--border);
 }
@@ -391,7 +485,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
 }
 
 .remove-file:hover {
@@ -407,6 +500,46 @@
   margin-top: var(--spacing-md);
 }
 
+.empty-state,
+.shared-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-main);
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.empty-icon,
+.shared-empty-icon {
+  margin: 0 auto var(--spacing-lg);
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
+}
+
+.empty-icon img,
+.shared-empty-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty-state h3,
+.shared-empty-title {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-main);
+}
+
+.empty-state p,
+.empty-state-text,
+.shared-empty-text {
+  font-size: 1rem;
+  opacity: 0.7;
+  margin-bottom: var(--spacing-lg);
+}
+
 /* ==========================================
    RESPONSIVE
    ========================================== */
@@ -414,19 +547,24 @@
   .folder-header {
     padding: var(--spacing-lg);
   }
-  
+
   .folder-title {
     font-size: 2rem;
     flex-direction: column;
     gap: var(--spacing-sm);
   }
-  
-  .file-meta {
+
+  .file-meta,
+  .shared-file-meta {
     flex-direction: column;
     gap: var(--spacing-xs);
   }
-  
+
   .file-actions {
     flex-direction: column;
+  }
+
+  .shared-folders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
