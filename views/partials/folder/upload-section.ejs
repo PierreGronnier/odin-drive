@@ -1,9 +1,8 @@
-<!-- Upload Section for this specific folder -->
 <div class="upload-section">
   <h2 class="section-title">
-    <i class="section-icon">
-      <img src="/icon/cloud.png" alt="Cloud upload Icon" class="icon-sm" />
-    </i>
+    <div class="section-icon icon-wrapper icon-lg">
+      <img src="/icon/cloud.png" alt="Cloud upload Icon" />
+    </div>
     Add files to "<%= currentFolder.name %>"
   </h2>
 
@@ -27,13 +26,9 @@
       />
       <label for="folderFileInput" class="file-input-label">
         <div class="upload-placeholder" id="folderUploadPlaceholder">
-          <i class="upload-icon">
-            <img
-              src="/icon/cloud.png"
-              alt="Cloud upload Placeholder"
-              class="icon-lg"
-            />
-          </i>
+          <div class="upload-icon icon-wrapper">
+            <img src="/icon/cloud.png" alt="Cloud upload Placeholder" />
+          </div>
           <div class="upload-text">
             <h3>Drop files here to add to this folder</h3>
             <p>or click to browse</p>
@@ -41,13 +36,9 @@
         </div>
         <div class="file-preview" id="folderFilePreview" style="display: none">
           <div class="preview-content">
-            <i class="preview-icon" id="folderPreviewIcon">
-              <img
-                src="/icon/files.png"
-                alt="File Preview Icon"
-                class="icon-md"
-              />
-            </i>
+            <div class="preview-icon icon-wrapper icon-xl">
+              <img src="/icon/files.png" alt="File Preview Icon" />
+            </div>
             <div class="preview-info">
               <h4 id="folderFileName"></h4>
               <p id="folderFileSize"></p>
@@ -66,7 +57,10 @@
 
     <div id="folderFileMessage" class="file-message"></div>
     <button type="submit" class="btn btn-primary">
-      <i class="button-icon">↑</i> Upload to this folder
+      <div class="button-icon icon-wrapper icon-md">
+        <img src="/icon/upload.png" alt="Upload" />
+      </div>
+      Upload to this folder
     </button>
   </form>
 </div>

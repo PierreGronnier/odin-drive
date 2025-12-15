@@ -2,49 +2,145 @@
    CONTENEURS PRINCIPAUX
    ========================================== */
 
-.auth-page {
+.auth-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
-  padding: var(--spacing-lg);
+  padding: 20px;
+  margin: 0;
 }
 
 .auth-box {
   background: var(--bg-white);
-  padding: var(--spacing-3xl);
-  border-radius: var(--radius-lg);
+  padding: 50px;
+  border-radius: 15px;
   width: 100%;
+  max-width: 500px;
+  margin: 0;
+  position: relative;
 }
 
 .auth-box h1 {
   text-align: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: 30px;
   color: var(--primary);
+  font-size: 2.2rem;
+  font-weight: 700;
 }
 
 .auth-box p {
   text-align: center;
   color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-top: var(--spacing-lg);
+  font-size: 1rem;
+  margin-top: 25px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   FORMULAIRES
+   ========================================== */
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.auth-box input[type="email"],
+.auth-box input[type="password"],
+.auth-box input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  color: var(--text-main);
+}
+
+.auth-box input[type="email"]:focus,
+.auth-box input[type="password"]:focus,
+.auth-box input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(51, 102, 255, 0.1);
+}
+
+.auth-box input::placeholder {
+  color: #999;
+}
+
+.auth-box button[type="submit"] {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.auth-box button[type="submit"]:hover {
+  background: var(--primary-hover);
+}
+
+/* ==========================================
+   BOUTONS HOME
+   ========================================== */
+
+.home-desc {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 .auth-box .home-buttons {
   display: flex;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-xl);
+  gap: 15px;
+  margin-top: 30px;
 }
 
 .auth-box .home-buttons .btn {
   flex: 1;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  background: var(--primary);
+  color: white;
+  border: none;
 }
 
-.home-desc {
-  font-size: 1.1rem;
-  margin-bottom: var(--spacing-lg);
+.auth-box .home-buttons .btn:hover {
+  background: var(--primary-hover);
 }
+
+/* ==========================================
+   LIENS
+   ========================================== */
+
+.auth-box a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-box a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   DASHBOARD
+   ========================================== */
 
 .dashboard-page {
   min-height: 100vh;
@@ -110,6 +206,10 @@
   font-weight: 600;
 }
 
+/* ==========================================
+   SHARED PAGES
+   ========================================== */
+
 .shared-page {
   min-height: 100vh;
   background: var(--bg-main);
@@ -147,6 +247,7 @@
 /* ==========================================
    SECTIONS
    ========================================== */
+
 .section {
   margin-bottom: var(--spacing-3xl);
 }
@@ -190,6 +291,7 @@
 /* ==========================================
    CARDS & BOXES
    ========================================== */
+
 .card {
   background: var(--bg-white);
   border: 1px solid var(--border);
@@ -214,6 +316,7 @@
 /* ==========================================
    GRILLES
    ========================================== */
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -230,10 +333,19 @@
 /* ==========================================
    RESPONSIVE
    ========================================== */
+
 @media (max-width: 768px) {
   .auth-box {
-    padding: var(--spacing-xl);
+    padding: 30px 20px;
     max-width: 100%;
+  }
+
+  .auth-box h1 {
+    font-size: 1.8rem;
+  }
+
+  .auth-box .home-buttons {
+    flex-direction: column;
   }
 
   .dashboard-header {

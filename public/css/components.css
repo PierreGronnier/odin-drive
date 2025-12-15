@@ -97,9 +97,6 @@
 .breadcrumb-folder-icon {
   width: 16px;
   height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .breadcrumb-icon img,
@@ -121,7 +118,6 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -193,30 +189,34 @@
 }
 
 /* ==========================================
-   STATS CARDS - CORRIGÉ POUR HORIZONTAL
+   STATS CARDS - Style avec grandes icônes à gauche
    ========================================== */
 .stat-card {
-  background: var(--bg-light);
+  background: var(--bg-white);
   border-radius: var(--radius-md);
   padding: var(--spacing-xl);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
+  border: 1px solid var(--border);
   transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
 }
 
 .stat-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .stat-icon {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--bg-main);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
 }
 
 .stat-icon img {
@@ -227,11 +227,14 @@
 
 .stat-content {
   flex: 1;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
 }
 
 .stat-number {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--text-main);
   margin: 0;
@@ -239,10 +242,50 @@
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  margin: 5px 0 0 0;
+  margin: var(--spacing-xs) 0 0 0;
   font-weight: 500;
+}
+
+/* ==========================================
+   STATS CARDS POUR SHARE FOLDER (layout vertical)
+   ========================================== */
+.shared-container .stat-card {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.shared-container .stat-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.shared-container .stat-content {
+  align-items: center;
+  min-height: auto;
+}
+
+.shared-container .stat-number {
+  font-size: 2.5rem;
+}
+
+.shared-container .stat-label {
+  margin-top: var(--spacing-xs);
+  font-size: 1rem;
+}
+
+/* ==========================================
+   GRID POUR LES STATS
+   ========================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin: var(--spacing-2xl) 0;
 }
 
 /* ==========================================
@@ -265,22 +308,6 @@
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xl);
   flex-wrap: wrap;
-}
-
-/* Boutons avec icônes - TAILLE CORRIGÉE */
-.button-icon {
-  width: 20px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button-icon img,
-.button-image-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 /* ==========================================
@@ -314,7 +341,7 @@
 }
 
 /* ==========================================
-   ICÔNES GÉNÉRIQUES - TAILLES STANDARDISÉES
+   ICÔNES GÉNÉRIQUES
    ========================================== */
 .icon-wrapper {
   display: flex;
@@ -342,11 +369,50 @@
   height: 48px;
 }
 
-.icon-wrapper img,
-.stat-image-icon,
-.button-image-icon,
-.empty-image-icon {
+.icon-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* ==========================================
+   BOUTONS AVEC ICÔNES
+   ========================================== */
+.button-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ==========================================
+   RESPONSIVE POUR LES STATS
+   ========================================== */
+@media (max-width: 768px) {
+  .stat-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-md);
+  }
+
+  .stat-icon {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .stat-content {
+    align-items: center;
+    min-height: auto;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
