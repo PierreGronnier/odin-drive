@@ -1,11 +1,4 @@
 <div class="files-section">
-  <div class="section-header">
-    <h2 class="section-title">Files in this folder</h2>
-    <span class="file-count">
-      <%= files ? files.length : 0 %> file<%= files && files.length !== 1 ? 's'
-      : '' %>
-    </span>
-  </div>
   <% if (files && files.length > 0) { %>
   <div class="files-list">
     <% files.forEach(file => { %>
@@ -53,7 +46,7 @@
     <div class="empty-icon">
       <img src="/icon/files.png" alt="empty icon" class="icon-lg" />
     </div>
-    <h3>No recent files</h3>
+    <h3>No files in this folder</h3>
     <p>Upload files to see them here</p>
   </div>
   <% } %>

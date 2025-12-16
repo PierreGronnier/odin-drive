@@ -7,13 +7,25 @@ class FileController {
     try {
       const folders = await FolderService.getRootFolders(req.user.id);
 
+      const page = parseInt(req.query.page) || 1;
+      const limit = 10;
+
+      const filesData = await FileService.getAllUserFilesPaginated(
+        req.user.id,
+        page,
+        limit
+      );
+
       const allFiles = await FileService.getAllUserFiles(req.user.id);
 
       let totalFolders = 0;
       try {
         totalFolders = await FolderService.countUserFolders(req.user.id);
       } catch (e) {
-        console.error(`[DASHBOARD] Failed to count folders for user ${req.user.id}:`, e.message);
+        console.error(
+          `[DASHBOARD] Failed to count folders for user ${req.user.id}:`,
+          e.message
+        );
         totalFolders = folders.length;
       }
 
@@ -23,13 +35,19 @@ class FileController {
         0
       );
 
-      const recentFiles = allFiles.slice(0, 10);
-
       res.render("dashboard", {
         title: "Your Drive",
         user: req.user,
         folders: folders,
-        files: recentFiles,
+        files: filesData.files,
+        pagination: {
+          currentPage: filesData.page,
+          totalPages: filesData.totalPages,
+          hasNext: filesData.hasNextPage,
+          hasPrev: filesData.hasPrevPage,
+          totalFiles: filesData.total,
+          limit: filesData.limit,
+        },
         totalFolders: totalFolders,
         totalFiles: totalFiles,
         totalSize: totalSize,
@@ -38,7 +56,7 @@ class FileController {
       console.error(`[DASHBOARD] Error for user ${req.user?.id}:`, {
         message: error.message,
         stack: error.stack,
-        userId: req.user?.id
+        userId: req.user?.id,
       });
       req.session.error = ERRORS.GENERAL.INTERNAL_ERROR;
       res.render("dashboard", {
@@ -46,6 +64,7 @@ class FileController {
         user: req.user,
         folders: [],
         files: [],
+        pagination: null,
         totalFolders: 0,
         totalFiles: 0,
         totalSize: 0,
@@ -84,9 +103,9 @@ class FileController {
         folderId: req.body.folderId,
         fileSize: req.file?.size,
         error: error.message,
-        code: error.code
+        code: error.code,
       });
-      
+
       FileService.cleanupFile(req.file?.path);
       req.session.error = this.getErrorMessage(error);
       res.redirect(req.headers.referer || "/dashboard");
@@ -98,7 +117,9 @@ class FileController {
       const file = await FileService.getFileById(req.params.id, req.user.id);
 
       if (!file) {
-        console.error(`[DOWNLOAD] File not found: ID ${req.params.id}, User ${req.user.id}`);
+        console.error(
+          `[DOWNLOAD] File not found: ID ${req.params.id}, User ${req.user.id}`
+        );
         req.session.error = ERRORS.FILE.NOT_FOUND;
         return res.redirect("/dashboard");
       }
@@ -114,7 +135,7 @@ class FileController {
       console.error(`[DOWNLOAD] Error for user ${req.user.id}:`, {
         fileId: req.params.id,
         error: error.message,
-        stack: error.stack
+        stack: error.stack,
       });
       req.session.error = ERRORS.FILE.DOWNLOAD_FAILED;
       res.redirect("/dashboard");
@@ -131,7 +152,7 @@ class FileController {
       console.error(`[DELETE_FILE] Failed for user ${req.user.id}:`, {
         fileId: req.params.id,
         error: error.message,
-        code: error.code
+        code: error.code,
       });
       req.session.error = ERRORS.FILE.DELETE_FAILED;
       res.redirect("/dashboard");
@@ -142,7 +163,7 @@ class FileController {
     console.error(`[FILE_ERROR] Type: ${error.constructor.name}`);
     console.error(`Message: ${error.message}`);
     if (error.code) console.error(`Code: ${error.code}`);
-    
+
     if (error.message && error.message.startsWith("INVALID_FILE_TYPE:")) {
       const mimeType = error.message.split(":")[1];
       return `File type "${mimeType}" is not allowed. Please upload a supported file type.`;

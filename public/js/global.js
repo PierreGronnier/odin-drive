@@ -4,6 +4,7 @@ function openCreateFolderModal(parentId = null) {
   const title = document.getElementById("createModalTitle");
   const button = document.getElementById("createModalButton");
   const parentInput = document.getElementById("modalParentId");
+  const form = document.getElementById("createFolderForm");
 
   parentInput.value = parentId || "";
 
@@ -15,6 +16,12 @@ function openCreateFolderModal(parentId = null) {
     button.textContent = "Create Folder";
   }
 
+  // Ajouter le paramètre page à l'action du formulaire
+  const currentPage = new URLSearchParams(window.location.search).get("page");
+  if (currentPage) {
+    form.action = `/folders?page=${currentPage}`;
+  }
+
   modal.style.display = "block";
 }
 
@@ -23,10 +30,17 @@ function closeCreateFolderModal() {
 }
 
 function openEditFolderModal(folderId, folderName) {
+  const currentPage = new URLSearchParams(window.location.search).get("page");
+  const form = document.getElementById("editFolderForm");
+
   document.getElementById("editFolderName").value = folderName;
-  document.getElementById(
-    "editFolderForm"
-  ).action = `/folders/${folderId}?_method=PUT`;
+
+  let action = `/folders/${folderId}?_method=PUT`;
+  if (currentPage) {
+    action += `&page=${currentPage}`;
+  }
+
+  form.action = action;
   document.getElementById("editFolderModal").style.display = "block";
 }
 
@@ -35,10 +49,17 @@ function closeEditFolderModal() {
 }
 
 function openDeleteFolderModal(folderId, folderName) {
+  const currentPage = new URLSearchParams(window.location.search).get("page");
+  const form = document.getElementById("deleteFolderForm");
+
   document.getElementById("deleteFolderName").textContent = folderName;
-  document.getElementById(
-    "deleteFolderForm"
-  ).action = `/folders/${folderId}?_method=DELETE`;
+
+  let action = `/folders/${folderId}?_method=DELETE`;
+  if (currentPage) {
+    action += `&page=${currentPage}`;
+  }
+
+  form.action = action;
   document.getElementById("deleteFolderModal").style.display = "block";
 }
 
@@ -48,7 +69,14 @@ function closeDeleteFolderModal() {
 
 // FOLDER NAVIGATION
 function openFolder(folderId) {
-  window.location.href = `/folder/${folderId}`;
+  const currentPage = new URLSearchParams(window.location.search).get("page");
+  let url = `/folder/${folderId}`;
+
+  if (currentPage) {
+    url += `?page=${currentPage}`;
+  }
+
+  window.location.href = url;
 }
 
 // FILE UPLOAD FUNCTIONS

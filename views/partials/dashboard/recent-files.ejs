@@ -1,10 +1,4 @@
 <div class="files-section">
-  <div class="section-header">
-    <h2 class="section-title">Recent Files</h2>
-    <span class="file-count">
-      <%= files.length %> file<%= files.length !== 1 ? 's' : '' %>
-    </span>
-  </div>
   <% if (files.length > 0) { %>
   <div class="files-list">
     <% files.forEach(file => { %>

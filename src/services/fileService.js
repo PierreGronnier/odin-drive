@@ -12,6 +12,85 @@ class FileService {
     });
   }
 
+  static async getUserFilesPaginated(
+    userId,
+    folderId = null,
+    page = 1,
+    limit = 10
+  ) {
+    const skip = (page - 1) * limit;
+
+    const [files, total] = await Promise.all([
+      prisma.file.findMany({
+        where: {
+          userId,
+          folderId: folderId || null,
+        },
+        orderBy: { createdAt: "desc" },
+        skip: skip,
+        take: limit,
+        include: {
+          folder: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      }),
+      prisma.file.count({
+        where: {
+          userId,
+          folderId: folderId || null,
+        },
+      }),
+    ]);
+
+    return {
+      files,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      hasNextPage: page * limit < total,
+      hasPrevPage: page > 1,
+    };
+  }
+
+  static async getAllUserFilesPaginated(userId, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+
+    const [files, total] = await Promise.all([
+      prisma.file.findMany({
+        where: { userId },
+        include: {
+          folder: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        skip: skip,
+        take: limit,
+      }),
+      prisma.file.count({
+        where: { userId },
+      }),
+    ]);
+
+    return {
+      files,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      hasNextPage: page * limit < total,
+      hasPrevPage: page > 1,
+    };
+  }
+
   static async createFile(fileData) {
     return await prisma.file.create({
       data: fileData,

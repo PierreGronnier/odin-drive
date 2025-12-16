@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title><%= title %></title>
     <link rel="icon" type="image/png" href="/icon/cloud.png" />
-    <!-- CSS de base (TOUJOURS chargé) -->
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/containers.css" />
     <link rel="stylesheet" href="/css/components.css" />
@@ -16,15 +15,12 @@
   >
     <% if (user && !isSharedAccess) { %> <%- include("partials/navbar") %> <% }
     %> <% if (isSharedAccess) { %>
-    <!-- PAGE PARTAGÉE -->
     <div class="shared-container"><%- body %></div>
     <% } else if (user) { %>
-    <!-- UTILISATEUR CONNECTÉ -->
     <main class="dashboard-main">
       <div class="dashboard-container"><%- body %></div>
     </main>
     <% } else { %>
-    <!-- PUBLIC NON-CONNECTÉ - TOUTES LES PAGES DANS CARDS -->
     <div class="auth-wrapper">
       <div class="auth-box"><%- body %></div>
     </div>
@@ -39,6 +35,8 @@
     <% } %> <% } %> <% if (typeof currentFolder !== 'undefined' ||
     title.includes('Share')) { %>
     <script src="/js/share.js"></script>
+    <% } %> <% if (user && !isSharedAccess) { %>
+    <script src="/js/accordion.js"></script>
     <% } %>
   </body>
 </html>

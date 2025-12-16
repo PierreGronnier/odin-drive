@@ -13,42 +13,93 @@
     <h2 class="section-title">Overview</h2>
     <%- include('partials/dashboard/stats') %>
   </div>
-  <!-- Folders Section -->
-  <div class="folders-section">
+  <div
+    class="collapsible-section"
+    data-section-id="folders"
+    data-default-state="open"
+  >
     <div class="section-header">
-      <h2 class="section-title">Your Folders</h2>
-      <button class="btn btn-primary" onclick="openCreateFolderModal()">
-        <i class="button-icon">
+      <div class="section-header-left">
+        <h2 class="section-title">
+          <div class="section-icon">
+            <img src="/icon/folder.png" alt="Folders" class="icon-md" />
+          </div>
+          Your Folders
+          <span class="file-count">
+            <%= folders.length %> folder<%= folders.length !== 1 ? 's' : '' %>
+          </span>
+        </h2>
+      </div>
+      <div class="section-header-right">
+        <button class="section-toggle">
+          <i class="icon-sm">▼</i>
+        </button>
+        <button
+          class="btn btn-primary btn-sm"
+          onclick="openCreateFolderModal()"
+        >
+          <div class="button-icon">
+            <img
+              src="/icon/folder.png"
+              alt="New folder"
+              class="button-image-icon"
+            />
+          </div>
+          New Folder
+        </button>
+      </div>
+    </div>
+    <div class="section-content">
+      <% if (folders && folders.length > 0) { %> <%-
+      include('partials/shared/folder-grid', { folders: folders }) %> <% } else
+      { %>
+      <div class="empty-state">
+        <div class="empty-icon">
           <img
             src="/icon/folder.png"
-            alt="New folder"
-            class="button-image-icon"
+            alt="Empty folder"
+            class="empty-image-icon"
           />
-        </i>
-        New Folder
-      </button>
-    </div>
-    <% if (folders && folders.length > 0) { %> <%-
-    include('partials/shared/folder-grid', { folders: folders }) %> <% } else {
-    %>
-    <div class="empty-state">
-      <div class="empty-icon">
-        <img
-          src="/icon/folder.png"
-          alt="Empty folder"
-          class="empty-image-icon"
-        />
+        </div>
+        <h3>No folders yet</h3>
+        <p>Create your first folder to organize your files</p>
+        <button class="btn btn-primary" onclick="openCreateFolderModal()">
+          Create First Folder
+        </button>
       </div>
-      <h3>No folders yet</h3>
-      <p>Create your first folder to organize your files</p>
-      <button class="btn btn-primary" onclick="openCreateFolderModal()">
-        Create First Folder
-      </button>
+      <% } %>
     </div>
-    <% } %>
   </div>
-  <!-- Recent Files Section -->
-  <%- include('partials/dashboard/recent-files', { files: files }) %>
-  <!-- Modals -->
+  <div
+    class="collapsible-section"
+    data-section-id="recent-files"
+    data-default-state="closed"
+  >
+    <div class="section-header">
+      <div class="section-header-left">
+        <h2 class="section-title">
+          <div class="section-icon">
+            <img src="/icon/files.png" alt="Recent Files" class="icon-md" />
+          </div>
+          Recent Files
+          <span class="file-count">
+            <%= pagination ? pagination.totalFiles : files.length %> file<%=
+            (pagination ? pagination.totalFiles : files.length) !== 1 ? 's' : ''
+            %>
+          </span>
+        </h2>
+      </div>
+      <div class="section-header-right">
+        <button class="section-toggle">
+          <i class="icon-sm">▶</i>
+        </button>
+      </div>
+    </div>
+    <div class="section-content">
+      <%- include('partials/dashboard/recent-files', { files: files }) %> <% if
+      (pagination && pagination.totalPages > 1) { %> <%-
+      include('partials/shared/pagination') %> <% } %>
+    </div>
+  </div>
   <%- include('partials/shared/modals') %>
 </div>
