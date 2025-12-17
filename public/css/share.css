@@ -19,18 +19,23 @@
 .share-form-icon {
   width: 24px;
   height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-form-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-form-title-text {
   margin: 0;
   font-size: 1.3rem;
   color: var(--text-main);
+  font-weight: 600;
 }
 
 .share-description {
@@ -83,12 +88,16 @@
 .share-generate-icon {
   width: 18px;
   height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-generate-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-form-note {
@@ -106,12 +115,16 @@
   height: 16px;
   margin-top: 2px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-form-note-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-form-footer {
@@ -130,12 +143,16 @@
 .share-all-links-icon {
   width: 18px;
   height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-all-links-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 /* ==========================================
@@ -159,12 +176,16 @@
 .share-link-success-icon {
   width: 24px;
   height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-link-success-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-link-success-content {
@@ -175,6 +196,7 @@
   color: var(--success-text);
   margin: 0;
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .share-link-success-subtitle {
@@ -212,7 +234,6 @@
   gap: var(--spacing-xs);
   font-weight: 500;
   font-size: 0.95rem;
-  transition: background-color 0.3s;
   height: 40px;
 }
 
@@ -223,12 +244,16 @@
 .copy-btn-icon {
   width: 16px;
   height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .copy-btn-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-link-note {
@@ -270,12 +295,16 @@
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-header-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-title {
@@ -330,12 +359,16 @@
   width: 16px;
   height: 16px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-info-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .share-info-text {
@@ -360,12 +393,16 @@
 .share-action-icon {
   width: 16px;
   height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-action-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 /* ==========================================
@@ -385,18 +422,23 @@
 .shared-folder-icon {
   width: 48px;
   height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shared-folder-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .shared-folder-name {
   font-size: 2rem;
   color: var(--text-main);
   margin: 0;
+  font-weight: 600;
 }
 
 .shared-info-section {
@@ -423,12 +465,16 @@
 .shared-expiry-icon {
   width: 18px;
   height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shared-expiry-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .shared-expiry-text {
@@ -464,12 +510,16 @@
 .download-all-icon {
   width: 20px;
   height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .download-all-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .shared-section {
@@ -485,17 +535,22 @@
   gap: var(--spacing-sm);
   padding-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--border);
+  font-weight: 600;
 }
 
 .shared-section-icon {
   width: 24px;
   height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shared-section-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .expiry-warning {
@@ -514,12 +569,16 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .expiry-warning-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .expiry-warning-text {
@@ -566,19 +625,23 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--spacing-xl);
+  padding: 0;
+  min-height: auto;
+  background: var(--bg-main);
 }
 
 .shared-container .stat-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: var(--spacing-md);
+  width: 100%;
+  height: 100px;
+  margin-bottom: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 .shared-container .stat-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: var(--spacing-lg);
 }
 
 .shared-container .stat-number {
