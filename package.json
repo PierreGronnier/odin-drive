@@ -1,7 +1,7 @@
 {
   "name": "odin-drive",
-  "version": "1.0.0",
-  "description": "A stripped down version of a drive for the Odin project",
+  "version": "2.0.0-cloud",
+  "description": "A stripped down version of a drive storage for the Odin project",
   "homepage": "https://github.com/PierreGronnier/odin-drive#readme",
   "bugs": {
     "url": "https://github.com/PierreGronnier/odin-drive/issues"
