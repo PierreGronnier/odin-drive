@@ -80,21 +80,25 @@ class FileController {
       }
 
       const fileData = {
-        filename: req.file.filename,
         originalName: req.file.originalname,
-        path: req.file.path,
         size: req.file.size,
         mimetype: req.file.mimetype,
-        userId: req.user.id,
-        folderId: req.body.folderId ? parseInt(req.body.folderId) : null,
       };
 
-      await FileService.createFile(fileData);
+      const folderId = req.body.folderId ? parseInt(req.body.folderId) : null;
+
+      // Appel modifié : on passe le buffer et plus le chemin
+      await FileService.createFile(
+        fileData,
+        req.file.buffer, // <-- Le fichier en mémoire
+        req.user.id,
+        folderId
+      );
 
       req.session.success = `File "${req.file.originalname}" uploaded successfully!`;
 
-      if (req.body.folderId) {
-        return res.redirect(`/folder/${req.body.folderId}`);
+      if (folderId) {
+        return res.redirect(`/folder/${folderId}`);
       }
       return res.redirect("/dashboard");
     } catch (error) {
@@ -106,7 +110,7 @@ class FileController {
         code: error.code,
       });
 
-      FileService.cleanupFile(req.file?.path);
+      // Nettoyage : plus besoin de supprimer un fichier local
       req.session.error = this.getErrorMessage(error);
       res.redirect(req.headers.referer || "/dashboard");
     }
@@ -124,13 +128,8 @@ class FileController {
         return res.redirect("/dashboard");
       }
 
-      if (!require("fs").existsSync(file.path)) {
-        console.error(`[DOWNLOAD] File missing on disk: ${file.path}`);
-        req.session.error = ERRORS.FILE.NOT_FOUND;
-        return res.redirect("/dashboard");
-      }
-
-      res.download(file.path, file.originalName);
+      // Redirection simple vers l'URL publique Supabase
+      res.redirect(file.url);
     } catch (error) {
       console.error(`[DOWNLOAD] Error for user ${req.user.id}:`, {
         fileId: req.params.id,

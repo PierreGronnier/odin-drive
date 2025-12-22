@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "@supabase/supabase-js": "^2.89.0",
     "archiver": "^7.0.1",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
@@ -30,6 +31,7 @@
     "express-validator": "^7.3.0",
     "method-override": "^3.0.0",
     "multer": "^2.0.2",
+    "node-fetch": "^2.7.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "prisma": "^6.19.0"

@@ -87,7 +87,7 @@ function handleFileSelect(input) {
   const fileSize = document.getElementById("folderFileSize");
   const fileMessage = document.getElementById("folderFileMessage");
 
-  const maxSizeMB = 100;
+  const maxSizeMB = 10;
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
   if (input.files.length > 0) {
@@ -130,7 +130,7 @@ function removeSelectedFile() {
 
 function validateFileSize(form) {
   const fileInput = form.querySelector('input[type="file"]');
-  const maxSize = 100 * 1024 * 1024;
+  const maxSize = 10 * 1024 * 1024;
 
   if (fileInput.files.length > 0) {
     const file = fileInput.files[0];
@@ -138,7 +138,7 @@ function validateFileSize(form) {
 
     if (file.size > maxSize) {
       alert(
-        `❌ File too large!\n\nYour file: ${fileSizeMB}MB\nMaximum allowed: 100MB`
+        `❌ File too large!\n\nYour file: ${fileSizeMB}MB\nMaximum allowed: 10MB`
       );
       return false;
     }

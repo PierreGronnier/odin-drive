@@ -46,11 +46,12 @@ model Folder {
 
 model File {
   id          Int      @id @default(autoincrement())
-  filename    String   
-  originalName String  
-  path        String  
-  size        Int      
-  mimetype    String   
+  filename    String
+  originalName String
+  url         String   
+  bucketPath  String  
+  size        Int
+  mimetype    String
   userId      Int
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   folderId    Int?

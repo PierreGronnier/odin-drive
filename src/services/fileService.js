@@ -1,5 +1,5 @@
 const prisma = require("../prismaClient");
-const fs = require("fs");
+const SupabaseStorageService = require("./supabaseStorageService");
 
 class FileService {
   static async getUserFiles(userId, folderId = null) {
@@ -57,6 +57,87 @@ class FileService {
     };
   }
 
+  static async createFile(fileData, fileBuffer, userId, folderId = null) {
+    try {
+      const supabaseFile = await SupabaseStorageService.uploadFile(
+        fileBuffer,
+        fileData.originalName,
+        fileData.mimetype,
+        userId,
+        folderId
+      );
+
+      return await prisma.file.create({
+        data: {
+          filename: supabaseFile.filename,
+          originalName: supabaseFile.originalName,
+          url: supabaseFile.url,
+          bucketPath: supabaseFile.bucketPath,
+          size: supabaseFile.size,
+          mimetype: supabaseFile.mimetype,
+          userId: userId,
+          folderId: folderId,
+        },
+      });
+    } catch (error) {
+      console.error("[FILE_SERVICE] Upload error:", error);
+      throw error;
+    }
+  }
+
+  static async getFileById(id, userId) {
+    return await prisma.file.findFirst({
+      where: { id: parseInt(id), userId },
+    });
+  }
+
+  static async deleteFile(id, userId) {
+    const file = await this.getFileById(id, userId);
+    if (!file) {
+      throw new Error("File not found");
+    }
+
+    if (file.bucketPath) {
+      await SupabaseStorageService.deleteFile(file.bucketPath);
+    }
+
+    return await prisma.file.delete({
+      where: { id: file.id },
+    });
+  }
+
+  static async moveFile(fileId, userId, folderId) {
+    const file = await this.getFileById(fileId, userId);
+    if (!file) {
+      throw new Error("File not found");
+    }
+
+    return await prisma.file.update({
+      where: { id: file.id },
+      data: { folderId: folderId ? parseInt(folderId) : null },
+    });
+  }
+
+  static cleanupFile(filePath) {
+    // Cette fonction n'est plus nécessaire car on ne stocke plus de fichiers locaux
+    console.warn("cleanupFile called but local files are disabled.");
+  }
+
+  static async getAllUserFiles(userId) {
+    return await prisma.file.findMany({
+      where: { userId },
+      include: {
+        folder: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
   static async getAllUserFilesPaginated(userId, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
 
@@ -91,64 +172,8 @@ class FileService {
     };
   }
 
-  static async createFile(fileData) {
-    return await prisma.file.create({
-      data: fileData,
-    });
-  }
-
-  static async getFileById(id, userId) {
-    return await prisma.file.findFirst({
-      where: { id: parseInt(id), userId },
-    });
-  }
-
-  static async deleteFile(id, userId) {
-    const file = await this.getFileById(id, userId);
-    if (!file) {
-      throw new Error("File not found");
-    }
-
-    if (fs.existsSync(file.path)) {
-      fs.unlinkSync(file.path);
-    }
-
-    return await prisma.file.delete({
-      where: { id: file.id },
-    });
-  }
-
-  static async moveFile(fileId, userId, folderId) {
-    const file = await this.getFileById(fileId, userId);
-    if (!file) {
-      throw new Error("File not found");
-    }
-
-    return await prisma.file.update({
-      where: { id: file.id },
-      data: { folderId: folderId ? parseInt(folderId) : null },
-    });
-  }
-
-  static cleanupFile(filePath) {
-    if (filePath && fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-  }
-
-  static async getAllUserFiles(userId) {
-    return await prisma.file.findMany({
-      where: { userId },
-      include: {
-        folder: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+  static async getFileDownloadUrl(file) {
+    return file.url;
   }
 }
 
