@@ -296,6 +296,25 @@ button:not([class]):hover {
   margin-top: auto;
 }
 
+.github-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.github-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  margin-bottom: 3px;
+}
+
+.github-link:hover .github-icon {
+  transform: scale(1.1);
+}
+
 .breadcrumb {
   display: flex;
   align-items: center;

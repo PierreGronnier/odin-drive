@@ -27,7 +27,7 @@ class ShareController {
       req.session.success = `Share link created! Valid for ${durationDays} days.`;
       req.session.shareUrl = shareUrl;
 
-      res.redirect(`/folder/${folderId}`);
+      res.redirect(`/shares`);
     } catch (error) {
       console.error("[SHARE] Error:", error);
       req.session.error = "Failed to create share link";
