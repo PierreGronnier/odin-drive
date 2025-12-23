@@ -87,10 +87,9 @@ class FileController {
 
       const folderId = req.body.folderId ? parseInt(req.body.folderId) : null;
 
-      // Appel modifié : on passe le buffer et plus le chemin
       await FileService.createFile(
         fileData,
-        req.file.buffer, // <-- Le fichier en mémoire
+        req.file.buffer,
         req.user.id,
         folderId
       );
@@ -110,7 +109,6 @@ class FileController {
         code: error.code,
       });
 
-      // Nettoyage : plus besoin de supprimer un fichier local
       req.session.error = this.getErrorMessage(error);
       res.redirect(req.headers.referer || "/dashboard");
     }
@@ -128,7 +126,6 @@ class FileController {
         return res.redirect("/dashboard");
       }
 
-      // Redirection simple vers l'URL publique Supabase
       res.redirect(file.url);
     } catch (error) {
       console.error(`[DOWNLOAD] Error for user ${req.user.id}:`, {
