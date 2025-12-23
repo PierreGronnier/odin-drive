@@ -65,4 +65,7 @@ app.use((req, res) => {
   res.status(404).render("404", { title: "Page Not Found", user: req.user });
 });
 
-app.listen(3000, () => console.log("Server running at http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on port ${PORT}`)
+);
