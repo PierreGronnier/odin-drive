@@ -1,5 +1,6 @@
 const FileService = require("../services/fileService");
 const FolderService = require("../services/folderService");
+const DownloadService = require("../services/downloadService");
 const ERRORS = require("../constants/errors");
 
 class FileController {
@@ -126,15 +127,18 @@ class FileController {
         return res.redirect("/dashboard");
       }
 
-      res.redirect(file.url);
+      await DownloadService.streamFile(file, res);
     } catch (error) {
       console.error(`[DOWNLOAD] Error for user ${req.user.id}:`, {
         fileId: req.params.id,
         error: error.message,
         stack: error.stack,
       });
-      req.session.error = ERRORS.FILE.DOWNLOAD_FAILED;
-      res.redirect("/dashboard");
+
+      if (!res.headersSent) {
+        req.session.error = ERRORS.FILE.DOWNLOAD_FAILED;
+        res.redirect("/dashboard");
+      }
     }
   }
 

@@ -1,4 +1,5 @@
 const ShareService = require("../services/shareService");
+const DownloadService = require("../services/downloadService"); // AJOUT
 const path = require("path");
 const fs = require("fs");
 const prisma = require("../prismaClient");
@@ -121,28 +122,7 @@ class ShareController {
         });
       }
 
-      const response = await fetch(file.url);
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch file: ${response.status} ${response.statusText}`
-        );
-      }
-
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${file.originalName}"`
-      );
-      res.setHeader(
-        "Content-Type",
-        file.mimetype || "application/octet-stream"
-      );
-      res.setHeader(
-        "Content-Length",
-        response.headers.get("content-length") || file.size
-      );
-
-      response.body.pipe(res);
+      await DownloadService.streamFile(file, res);
     } catch (error) {
       console.error("[SHARE_DOWNLOAD] Error:", error);
       if (!res.headersSent) {

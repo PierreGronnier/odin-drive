@@ -171,10 +171,6 @@ class FileService {
       hasPrevPage: page > 1,
     };
   }
-
-  static async getFileDownloadUrl(file) {
-    return file.url;
-  }
 }
 
 module.exports = FileService;
